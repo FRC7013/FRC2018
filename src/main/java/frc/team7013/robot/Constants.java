@@ -20,7 +20,7 @@ public class Constants {
     public static int joy_right_Trigger = 3;
 
     //Drive
-    public static int 
+    public static int victors_left
     //Lift
 
     //Intake
