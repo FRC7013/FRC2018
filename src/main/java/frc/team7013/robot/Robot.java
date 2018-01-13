@@ -2,9 +2,13 @@ package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
+
 public class Robot extends IterativeRobot {
+    public static Constants constant = new Constants();
+
+
     @Override
-    public void robotInit() { }
+    public void robotInit() {  }
 
     @Override
     public void disabledInit() { }
