@@ -12,15 +12,14 @@ public class SmartDashThing {
     private static Drive drive;
     private static Lift lift;
     private static Intake intake;
-    private static Ramps ramps;
     private static Joystick driver_joy, operator_joy;
 
-    SmartDashThing(Drive drive, Lift lift, Intake intake, Ramps ramps){
+    SmartDashThing(Drive drive, Lift lift, Intake intake){
 
-        this.ramps = ramps;
+        this.lift = lift;
         this.drive = drive;
         this.intake = intake;
-        this.ramps = ramps;
+
         smart_dash = new SmartDashboard();
     }
 

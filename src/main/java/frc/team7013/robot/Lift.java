@@ -20,7 +20,7 @@ public class Lift {
     public static void zeroEncoder(){
 
     }
-    public static boolean doLift(){
+    public static void doLift(){
         if(operator_joy.getRawButtonPressed(constants.joy_button_A)){
             arm_indicator = "Floor";
         }
@@ -31,7 +31,7 @@ public class Lift {
             arm_indicator = "Scale";
         }
     }
-    public static boolean doTelescope(){
+    public static void doTelescope(){
         if(operator_joy.getRawButtonPressed(constants.joy_button_leftBumper)){
             telescope_indicator = "Down";
         }
