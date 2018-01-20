@@ -1,14 +1,22 @@
-package main.java.frc.team7013.robot;
+package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 
 
 public class Robot extends IterativeRobot {
-    public static Constants constant = new Constants();
+    public static Constants constants;
+    public static Drive robot_drive;
+    public static Joystick driver_joy, operator_joy;
 
 
     @Override
-    public void robotInit() {  }
+    public void robotInit() {
+        constants = new Constants();
+        driver_joy = new Joystick(constants.driver_joy_port);
+        operator_joy = new Joystick(constants.operator_joy_port);
+        robot_drive = new Drive(driver_joy);
+    }
 
     @Override
     public void disabledInit() { }

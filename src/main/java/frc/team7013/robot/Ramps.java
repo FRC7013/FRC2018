@@ -1,4 +1,4 @@
-package main.java.frc.team7013.robot;
+package frc.team7013.robot;
 
 public class Ramps {
 }
