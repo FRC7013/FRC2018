@@ -1,11 +1,11 @@
 package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Spark;
 
 public class Intake {
 
-    private static VictorSP[] victors_intake_left, victorSPS_intake_right;
+    private static Spark[] Sparks_intake_left, Sparks_intake_right;
     private static DigitalInput cube_checker;
     private static boolean has_cube;
 

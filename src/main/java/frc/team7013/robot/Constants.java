@@ -20,12 +20,12 @@ public class Constants {
     public static int joy_left_Y = 1;
     public static int joy_right_X = 4;
     public static int joy_right_Y = 5;
-    public static int joy_left_Trigger = 2;
-    public static int joy_right_Trigger = 3;
+    public static int joy_left_trigger = 2;
+    public static int joy_right_trigger = 3;
 
     //Drive
-    public static int[] victors_left = {0,0};
-    public static int[] victors_right = {0,0};
+    public static int[] sparks_left = {0,0};
+    public static int[] sparks_right = {0,0};
     public static double drive_Kp =0;
     public static double drive_Kd = 0;
     public static double drive_Ki = 0;
@@ -33,8 +33,8 @@ public class Constants {
     public static int[] encoder_right = {0,0};
 
     //Lift
-    public static int[] victors_arm = {0,0};
-    public static int[] victors_telescope = {0,0};
+    public static int[] sparks_arm = {0,0};
+    public static int[] sparks_telescope = {0,0};
     public static int[] encoder_arm = {0,0};
     public static int[] encoder_telescope = {0,0};
     public static double arm_Kp = 0;
@@ -45,17 +45,19 @@ public class Constants {
     public static double telescope_Ki = 0;
 
     //Intake
-    public static int[] victors_intake_left = {0,0};
-    public static int[] victors_intake_right = {0,0};
+    public static int[] sparks_intake_left = {0,0};
+    public static int[] sparks_intake_right = {0,0};
     public static int box_button = 0;
 
-    //Ramps
-    public static int solenoid_ramps = 0;
-
     //Setpoint
-    public static int arm_setpoint_scale = 0;
-    public static int arm_setpoint_switch = 0;
-    public static int arm_setpoint_floor = 0;
+    public static int setpoint_floor_front = 0;
+    public static int setpoint_floor_rear = 0;
+    public static int setpoint_porttal_front = 0;
+    public static int setpoint_portal_rear = 0;
+    public static int setpoint_switch_front = 0;
+    public static int setpoint_switch_rear = 0;
+    public static int setpoint_scale_front = 0;
+    public static int setpoint_scale_rear = 0;
 
     //Encoder Cuttoffs
     public static int cuttoff_talon_mag_encoder = 0;
