@@ -2,12 +2,16 @@ package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.team7013.robot.Util.SmartDashThing;
 
 
 public class Robot extends IterativeRobot {
     public static Constants constants;
     public static Drive robot_drive;
     public static Joystick driver_joy, operator_joy;
+    public static Lift lift;
+    public static Intake intake;
+    public static SmartDashThing smart_dash;
 
 
     @Override
@@ -32,13 +36,17 @@ public class Robot extends IterativeRobot {
 
 
     @Override
-    public void disabledPeriodic() { }
+    public void disabledPeriodic() {
+        lift.zeroEncoders();
+    }
     
     @Override
     public void autonomousPeriodic() { }
 
     @Override
-    public void teleopPeriodic() { }
+    public void teleopPeriodic() {
+        lift.doLift();
+    }
 
     @Override
     public void testPeriodic() { }

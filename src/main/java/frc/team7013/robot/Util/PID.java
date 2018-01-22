@@ -21,7 +21,7 @@ public class PID {
         accum_Ki = 0;
     }
 
-    public void doPID(int current){
+    public boolean doPID(int current){
 
         error = setpoint - current; //calculate error
 
@@ -30,10 +30,14 @@ public class PID {
 
         output = (error * Kp) + (accum_Ki * Ki) + (previous_Kd * Kd);
 
-        if(error > cutoff_val)
-            output = (Math.abs(output) >= 1.0)?(output / Math.abs(output)):(output) ;
-        else
+        if(error > cutoff_val) {
+            output = (Math.abs(output) >= 1.0) ? (output / Math.abs(output)) : (output);
+            return false;
+        }
+        else {
             output = 0;
+            return true;
+        }
 
 
     }
