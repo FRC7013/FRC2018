@@ -7,16 +7,15 @@ import edu.wpi.first.wpilibj.Spark;
 public class Drive {
 
     private static Constants constants;
-    private static Spark[] sparksLeft, sparksRight;
+    private static Spark sparksLeft, sparksRight;
     private static Joystick driver_joy ;
     private static double speed_multiplier = 1;
     private static Encoder encoder_left, encoder_right;
 
     Drive(Joystick driver_joy){
-        for(int i = 0; i < constants.sparks_left.length; i++){
-            sparksLeft[i] = new Spark(constants.sparks_left[i]);
-            sparksRight[i] = new Spark(constants.sparks_right[i]);
-        }
+            sparksLeft = new Spark(constants.sparks_left);
+            sparksRight = new Spark(constants.sparks_right);
+
         this.driver_joy = driver_joy;
         encoder_left = new Encoder(constants.encoder_left[0], constants.encoder_left[1]);
         encoder_right = new Encoder(constants.encoder_right[0], constants.encoder_right[1]);
@@ -27,10 +26,8 @@ public class Drive {
         double left = driver_joy.getRawAxis(constants.joy_left_Y);
         double right = driver_joy.getRawAxis(constants.joy_right_Y);
 
-        for(Spark vic_left : sparksLeft)
-            vic_left.set(left/speed_multiplier);
-        for(Spark vic_right : sparksRight)
-            vic_right.set(right/speed_multiplier);
+        sparksLeft.set(left/speed_multiplier);
+        sparksRight.set(right/speed_multiplier);
     }
     public static boolean doPIDDrive(){
 

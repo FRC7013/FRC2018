@@ -24,8 +24,8 @@ public class Constants {
     public static int joy_right_trigger = 3;
 
     //Drive
-    public static int[] sparks_left = {0,0};
-    public static int[] sparks_right = {0,0};
+    public static int sparks_left = 0;
+    public static int sparks_right = 1;
     public static double drive_Kp =0;
     public static double drive_Kd = 0;
     public static double drive_Ki = 0;
@@ -33,8 +33,8 @@ public class Constants {
     public static int[] encoder_right = {0,0};
 
     //Lift
-    public static int[] sparks_arm = {0,0};
-    public static int[] sparks_telescope = {0,0};
+    public static int sparks_arm = 2;
+    public static int sparks_telescope = 3;
     public static int[] encoder_arm = {0,0};
     public static int[] encoder_telescope = {0,0};
     public static double arm_Kp = 0;
@@ -45,9 +45,11 @@ public class Constants {
     public static double telescope_Ki = 0;
 
     //Intake
-    public static int[] sparks_intake_left = {0,0};
-    public static int[] sparks_intake_right = {0,0};
-    public static int box_button = 0;
+    public static int sparks_intake_left = 4;
+    public static int sparks_intake_right = 5;
+    public static int box_button_left = 0;
+    public static int box_button_right = 0;
+    public static int gripper_solendoid = 0;
 
     //Setpoint
     public static int setpoint_floor_front = 0;

@@ -1,16 +1,13 @@
 package frc.team7013.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.*;
 import frc.team7013.robot.Util.PID;
 
 public class Lift {
 
     private static Constants constants;
     private static Spark[] sparks_arm;
-    private static Spark spark_telescope;
+    private static VictorSP victor_telescope;
     private static Joystick operator_joy;
     private static Encoder encoder_arm, encoder_telescope;
     private static String position_indicator = "";
@@ -67,9 +64,9 @@ public class Lift {
         if(operator_joy.getRawButtonPressed(constants.joy_button_Start)){ //manual engage
             manual_indicator = true;
             if(operator_joy.getRawButtonPressed(constants.joy_button_leftStick))
-                spark_telescope.set(.5);
+                victor_telescope.set(.5);
             else if(operator_joy.getRawButtonPressed(constants.joy_button_rightBumper))
-                spark_telescope.set(-.5);
+                victor_telescope.set(-.5);
             else if(operator_joy.getRawAxis(constants.joy_right_trigger) > .25){
                 for(Spark spark : sparks_arm)
                     spark.set(operator_joy.getRawAxis(constants.joy_right_trigger));
@@ -84,9 +81,9 @@ public class Lift {
     }
     public static int getEncoderArm(){ return encoder_arm.get();  }
     public static int getEncoderTelescope(){ return encoder_telescope.get(); }
-    public static String getPositionIndicator(){ return arm_indicator; }
+    public static String getPositionIndicator(){ return position_indicator; }
     public static boolean getManualIndicator(){ return manual_indicator; }
-    public static boolean getArmZero(){ return zero_arm.get(); }
+    public static boolean getArmZero(){ return zero_arm.get(); }
     public static boolean getTelescopeZero(){ return zero_telescope.get(); }
 
 }

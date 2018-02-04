@@ -1,19 +1,22 @@
 package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Intake {
 
-    private static Spark[] Sparks_intake_left, Sparks_intake_right;
-    private static DigitalInput cube_checker;
-    private static boolean has_cube;
+    private static Spark Sparks_intake_left, Sparks_intake_right;
+    private static DigitalInput cube_checker_left, cube_checker_right;
+    private static boolean has_cube_left, has_cube_right;
+    private static Solenoid gripper;
 
     Intake(){
 
     }
     public static void updateCube(){
-        has_cube = cube_checker.get();
+        has_cube_left = cube_checker_left.get();
+        has_cube_right = cube_checker_right.get();
     }
     public static void getCube(){
 
@@ -24,7 +27,7 @@ public class Intake {
     public static void doManual(){
 
     }
-    public static boolean getHasCube(){
-        return has_cube;
-    }
+
+    public static boolean get_has_cube_left(){ return has_cube_left; }
+    public static boolean get_has_cube_right(){ return has_cube_right; }
 }
