@@ -6,7 +6,7 @@ import frc.team7013.robot.Util.PID;
 public class Lift {
 
     private static Constants constants;
-    private static Spark[] sparks_arm;
+    private static Spark sparks_arm;
     private static VictorSP victor_telescope;
     private static Joystick operator_joy;
     private static Encoder encoder_arm, encoder_telescope;
@@ -14,6 +14,7 @@ public class Lift {
     private static boolean manual_indicator = false;
     private static PID pid_arm, pid_telescope;
     private static DigitalInput zero_arm, zero_telescope;
+    private static double arm_speed, telescope_speed;
 
     Lift(Joystick operator_joy){
 
@@ -64,20 +65,28 @@ public class Lift {
         if(operator_joy.getRawButtonPressed(constants.joy_button_Start)){ //manual engage
             manual_indicator = true;
             if(operator_joy.getRawButtonPressed(constants.joy_button_leftStick))
-                victor_telescope.set(.5);
+                telescope_speed = .5;
             else if(operator_joy.getRawButtonPressed(constants.joy_button_rightBumper))
-                victor_telescope.set(-.5);
+                telescope_speed = -.5;
             else if(operator_joy.getRawAxis(constants.joy_right_trigger) > .25){
-                for(Spark spark : sparks_arm)
-                    spark.set(operator_joy.getRawAxis(constants.joy_right_trigger));
+                arm_speed = .5;
             }
             else if(operator_joy.getRawAxis(constants.joy_left_trigger) > .25){
-                for(Spark spark : sparks_arm)
-                    spark.set(-operator_joy.getRawAxis(constants.joy_left_trigger));
+                arm_speed = -.5;
             }
         }
         else
             manual_indicator = false;
+    }
+    public static void setVelocities(){
+        if(manual_indicator == true) {
+            sparks_arm.set(arm_speed);
+            victor_telescope.set(telescope_speed);
+        }
+        else if(!doLift())
+            sparks_arm.set(pid_arm.getOutput());
+        
+
     }
     public static int getEncoderArm(){ return encoder_arm.get();  }
     public static int getEncoderTelescope(){ return encoder_telescope.get(); }

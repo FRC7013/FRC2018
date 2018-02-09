@@ -29,27 +29,33 @@ public class Constants {
     public static double drive_Kp =0;
     public static double drive_Kd = 0;
     public static double drive_Ki = 0;
-    public static int[] encoder_left = {0,0};
-    public static int[] encoder_right = {0,0};
+    public static int[] encoder_left = {0,1};
+    public static int[] encoder_right = {2,3};
 
     //Lift
     public static int sparks_arm = 2;
     public static int sparks_telescope = 3;
-    public static int[] encoder_arm = {0,0};
-    public static int[] encoder_telescope = {0,0};
+    public static int[] encoder_arm = {4,5};
+    public static int[] encoder_telescope = {6,7};
+    public static int arm_limit = 0;
+    public static int telescope_limit = 0;
+
+    //Arm PID
     public static double arm_Kp = 0;
     public static double arm_Kd = 0;
     public static double arm_Ki = 0;
+
+    //Telescope PID
     public static double telescope_Kp = 0;
     public static double telescope_Kd = 0;
     public static double telescope_Ki = 0;
 
     //Intake
+    public static double intake_speed = 0.0;
     public static int sparks_intake_left = 4;
     public static int sparks_intake_right = 5;
     public static int box_button_left = 0;
     public static int box_button_right = 0;
-    public static int gripper_solendoid = 0;
 
     //Setpoint
     public static int setpoint_floor_front = 0;
@@ -65,6 +71,6 @@ public class Constants {
     public static int cuttoff_talon_mag_encoder = 0;
     public static int cuttoff_greyhill_encoder = 0;
     public static int cuttoff_cimCoder_encoder = 0;
-    public static int cuttoff_versa_encoder = 0;
+    public static int cuttoff_775_encoder = 0;
 
 }

@@ -1,7 +1,6 @@
 package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 
 public class Intake {
@@ -9,7 +8,6 @@ public class Intake {
     private static Spark Sparks_intake_left, Sparks_intake_right;
     private static DigitalInput cube_checker_left, cube_checker_right;
     private static boolean has_cube_left, has_cube_right;
-    private static Solenoid gripper;
 
     Intake(){
 
