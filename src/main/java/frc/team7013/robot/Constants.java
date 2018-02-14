@@ -58,14 +58,14 @@ public class Constants {
     public static int box_button_right = 0;
 
     //Setpoint
-    public static int setpoint_floor_front = 0;
-    public static int setpoint_floor_rear = 0;
-    public static int setpoint_porttal_front = 0;
-    public static int setpoint_portal_rear = 0;
-    public static int setpoint_switch_front = 0;
-    public static int setpoint_switch_rear = 0;
-    public static int setpoint_scale_front = 0;
-    public static int setpoint_scale_rear = 0;
+    public static double setpoint_floor_front = 0;
+    public static double setpoint_floor_rear = 0;
+    public static double setpoint_porttal_front = 0;
+    public static double setpoint_portal_rear = 0;
+    public static double setpoint_switch_front = 0;
+    public static double setpoint_switch_rear = 0;
+    public static double setpoint_scale_front = 0;
+    public static double setpoint_scale_rear = 0;
 
     //Encoder Cuttoffs
     public static int cuttoff_talon_mag_encoder = 0;
