@@ -26,39 +26,46 @@ public class Lift {
             encoder_telescope.reset();
         }
     }
-    public static boolean doLift(){
-        if(!operator_joy.getRawButtonPressed(constants.joy_button_Back)){ //front to position
-            if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
-                pid_arm.newSetpoint(constants.setpoint_floor_front);
-                position_indicator = "Floor front";
-            }
-            else if(operator_joy.getRawButtonPressed(constants.joy_button_B)){ //portal
+    public static void doLift(){
+        doManual();
+        if(!operator_joy.getRawButton(constants.joy_button_leftStick)&&!operator_joy.getRawButton(constants.joy_button_rightStick)){//Cancel Setpoint
+            if(!operator_joy.getRawButtonPressed(constants.joy_button_Back)){ //front to position
+                if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
+                    pid_arm.newSetpoint(constants.setpoint_floor_front);
+                    position_indicator = "Floor front";
+                }
+                else if(operator_joy.getRawButtonPressed(constants.joy_button_B)){ //portal
 
-            }
-            else if(operator_joy.getRawButtonPressed(constants.joy_button_X)){ //switch
+                }
+                else if(operator_joy.getRawButtonPressed(constants.joy_button_X)){ //switch
 
-            }
-            else if(operator_joy.getRawButtonPressed(constants.joy_button_Y)){ //scale
+                }
+                else if(operator_joy.getRawButtonPressed(constants.joy_button_Y)){ //scale
 
+                }
+            }
+            else{ //rear to position
+                if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
+                    pid_arm.newSetpoint(constants.setpoint_floor_rear);
+                    position_indicator = "Floor rear";
+                }
+                else if(operator_joy.getRawButtonPressed(constants.joy_button_B)){ //portal
+
+                }
+                else if(operator_joy.getRawButtonPressed(constants.joy_button_X)){ //switch
+
+                }
+                else if(operator_joy.getRawButtonPressed(constants.joy_button_Y)){ //scale
+
+                }
             }
         }
-        else{ //rear to position
-            if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
-                pid_arm.newSetpoint(constants.setpoint_floor_rear);
-                position_indicator = "Floor rear";
-            }
-            else if(operator_joy.getRawButtonPressed(constants.joy_button_B)){ //portal
-
-            }
-            else if(operator_joy.getRawButtonPressed(constants.joy_button_X)){ //switch
-
-            }
-            else if(operator_joy.getRawButtonPressed(constants.joy_button_Y)){ //scale
-
-            }
+        else{
+            arm_speed = 0;
+            telescope_speed = 0;
         }
         zeroEncoders();
-        return pid_arm.doPID(encoder_arm.getRaw());
+
 
     }
     public static void doManual(){
@@ -79,13 +86,10 @@ public class Lift {
             manual_indicator = false;
     }
     public static void setVelocities(){
-        if(manual_indicator == true) {
-            sparks_arm.set(arm_speed);
-            victor_telescope.set(telescope_speed);
-        }
-        else if(!doLift())
-            sparks_arm.set(pid_arm.getOutput());
-        
+        sparks_arm.set(arm_speed);
+        victor_telescope.set(telescope_speed);
+    }
+    public static void distanceCalcs(){
 
     }
     public static int getEncoderArm(){ return encoder_arm.get();  }
