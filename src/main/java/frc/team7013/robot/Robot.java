@@ -7,19 +7,18 @@ import frc.team7013.robot.Auton.*;
 
 
 public class Robot extends IterativeRobot {
-    public static Constants constants;
-    public static Drive robot_drive;
-    public static Joystick driver_joy, operator_joy;
-    public static Lift lift;
-    public static Intake intake;
-    public static SmartDashThing smart_dash;
-    public static Auto auton;
+    private Drive robot_drive;
+    private Joystick driver_joy, operator_joy;
+    private Lift lift;
+    private Intake intake;
+    private SmartDashThing smart_dash;
+    private Auto auton;
 
 
     @Override
     public void robotInit() {
-        driver_joy = new Joystick(constants.driver_joy_port);
-        operator_joy = new Joystick(constants.operator_joy_port);
+        driver_joy = new Joystick(Constants.driver_joy_port);
+        operator_joy = new Joystick(Constants.operator_joy_port);
         robot_drive = new Drive(driver_joy);
         lift = new Lift(operator_joy);
         intake = new Intake(driver_joy);
@@ -30,7 +29,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {//TODO: finish auto init
         smart_dash.updateDash();
         robot_drive.zeroDriveEncoders();
-        auton = (Auto) smart_dash.autonSelector.getSelected();
+        auton = smart_dash.autonSelector.getSelected();
     }//done
     @Override
     public void autonomousPeriodic() { //TODO: finish auto periodic

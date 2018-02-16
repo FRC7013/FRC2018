@@ -4,7 +4,7 @@ import frc.team7013.robot.Drive;
 import frc.team7013.robot.Intake;
 import frc.team7013.robot.Lift;
 
-public class ScaleAndSwitch {
+public class ScaleAndSwitch extends Auto {
 
     public static Drive drive;
     public static Lift lift;
