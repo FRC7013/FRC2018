@@ -26,5 +26,8 @@ public class Auto {
                 break;
         }
     }
+    public static void doAuto(){
+
+    }
 
 }

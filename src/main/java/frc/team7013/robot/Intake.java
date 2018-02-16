@@ -1,9 +1,10 @@
 package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
-//TODO: finish the whole thing
+//TODO: Test the doIntake() function.
 public class Intake {
 
     private static Constants constants;
@@ -11,25 +12,32 @@ public class Intake {
     private static DigitalInput cube_checker_left, cube_checker_right;
     private static boolean has_cube_left, has_cube_right;
     private static Joystick driver_joy;
+    private static int state;
 
+    //constructors
     Intake(Joystick driver_joy){
         this.driver_joy = driver_joy;
         sparks_intake_left = new Spark(constants.sparks_intake_left);
         sparks_intake_right = new Spark(constants.sparks_intake_right);
         cube_checker_left = new DigitalInput(constants.box_button_left);
         cube_checker_right = new DigitalInput(constants.box_button_right);
+        state = 0;
+
     } //done
+
+    //functionality
     private static void updateCube(){
         has_cube_left = cube_checker_left.get();
         has_cube_right = cube_checker_right.get();
     } //done
     public static void doIntake(){
         updateCube();
-        if(driver_joy.getRawAxis(constants.joy_right_trigger)>.5){
+        if(!DriverStation.getInstance().isAutonomous()){ state = 0; }
+        if(driver_joy.getRawAxis(constants.joy_right_trigger)>.5 || state == 1){
             sparks_intake_left.set(constants.intake_speed);
             sparks_intake_right.set(constants.intake_speed);
         }
-        else if(driver_joy.getRawAxis(constants.joy_left_trigger)>.5){
+        else if(driver_joy.getRawAxis(constants.joy_left_trigger)>.5 || state == -1){
             sparks_intake_left.set(-constants.intake_speed);
             sparks_intake_right.set(-constants.intake_speed);
         }
@@ -40,6 +48,8 @@ public class Intake {
 
     } //done
 
+    //get and sets
+    public void setIntakeState(int state){ this.state = state; }
     public static boolean get_has_cube_left(){ return has_cube_left; }
     public static boolean get_has_cube_right(){ return has_cube_right; }
 }

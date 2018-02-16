@@ -17,7 +17,7 @@ public class Robot extends IterativeRobot {
 
 
     @Override
-    public void robotInit() {
+    public void robotInit() { //TODO: finish robot init
         driver_joy = new Joystick(constants.driver_joy_port);
         operator_joy = new Joystick(constants.operator_joy_port);
         robot_drive = new Drive(driver_joy);
@@ -28,11 +28,14 @@ public class Robot extends IterativeRobot {
     public void disabledInit() { }
 
     @Override
-    public void autonomousInit() {
+    public void autonomousInit() {//TODO: finish auto init
+        intake = new Intake();
     }
 
     @Override
-    public void teleopInit() { }
+    public void teleopInit() {//TODO: finish tele init
+        intake = new Intake(operator_joy);
+    }
 
     @Override
     public void testInit() { }
@@ -44,10 +47,14 @@ public class Robot extends IterativeRobot {
     }
     
     @Override
-    public void autonomousPeriodic() { }
+    public void autonomousPeriodic() { //TODO: finish auto periodic
+
+    }
 
     @Override
-    public void teleopPeriodic() {  }
+    public void teleopPeriodic() { //TODO: finish tele periodic
+
+    }
 
     @Override
     public void testPeriodic() { }

@@ -4,6 +4,7 @@ public class PID {
 
     private double Kp, Kd, Ki, output, previous_Kd, accum_Ki;
     private int error, setpoint, cutoff_val;
+    private boolean isDone;
 
     public PID(double Kp, double Kd, double Ki, int cutoff_val){
         this.Kp = Kp;
@@ -11,6 +12,7 @@ public class PID {
         this.Ki = Ki;
         this.cutoff_val = cutoff_val;
         setpoint = 0;
+        isDone = false;
     }
 
     public void newSetpoint(int setpoint){
@@ -19,6 +21,7 @@ public class PID {
         output = 0;
         previous_Kd = 0;
         accum_Ki = 0;
+        isDone = false;
     }
 
     public boolean doPID(int current){
@@ -32,14 +35,14 @@ public class PID {
 
         if(error > cutoff_val) {
             output = (Math.abs(output) >= 1.0) ? (output / Math.abs(output)) : (output);
-            return false;
+            isDone = false;
         }
         else {
             output = 0;
-            return true;
+            isDone = true;
         }
-
-
+        return isDone;
     }
+    public boolean getPidDone(){ return isDone; }
     public double getOutput(){ return output; }
 }

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.*;
 import frc.team7013.robot.Auton.Auto;
 import frc.team7013.robot.Util.PID;
 
+//TODO: test me, test all of me, please!!!!!
 public class Lift {
 
     private static Constants constants;
@@ -13,22 +14,14 @@ public class Lift {
     private static Joystick operator_joy;
     private static AnalogInput arm_pot, telescope_pot;
     private static String position_indicator = "";
-    private static int arm_setpoint = 0;
+    private static int arm_setpoint;
     private static boolean manual_indicator = false;
     private static PID pid_arm, pid_telescope;
     private static double arm_speed, telescope_speed;
-    private static Auto auton;
-    private static DriverStation driver_station;
 
-    Lift(Joystick operator_joy){
+    //constructors
+    Lift(Joystick operator_joy) {
         this.operator_joy = operator_joy;
-        initLift();
-    } //done
-    Lift(Auto auton){
-        this.auton = auton;
-        initLift();
-    } //done
-    private static void initLift(){
         sparks_arm = new Spark(constants.sparks_arm);
         talon_telescope = new PWMTalonSRX(constants.talon_telescope);
         arm_pot = new AnalogInput(constants.arm_pot);
@@ -36,28 +29,24 @@ public class Lift {
         pid_arm = new PID(constants.arm_Kp, constants.arm_Kd, constants.arm_Ki, constants.potentiometer_deadzone);
         arm_speed = 0;
         telescope_speed = 0;
+        arm_setpoint = 0;
+    }
 
-    } //done
-
+    //functionality
     public static void doLift(){
         if(!doManual()){//check if in manual first
-            if(driver_station.isAutonomous()){ //TODO: write sender for auton
-
-            }
-            else{
-                updateLift();
-                pid_arm.newSetpoint(arm_setpoint);
-                if(!pid_arm.doPID(arm_pot.getValue())&&(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)))
-                    pid_arm.newSetpoint(arm_pot.getValue());
-                arm_speed = pid_arm.getOutput();
-                pid_telescope.newSetpoint(telescopeLenCalc(armRotationToAngles(telescopeLenCalc(arm_pot.getValue()))));
-                if(!pid_telescope.doPID((int) Math.round(telescope_pot.getValue()*constants.telecope_scaling_factor))&&(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)))
-                    pid_telescope.newSetpoint(telescope_pot.getValue());
-                telescope_speed = pid_telescope.getOutput();
-            }
+            if(!DriverStation.getInstance().isAutonomous()) { updateLift(); }
+            pid_arm.newSetpoint(arm_setpoint);
+            if(!pid_arm.doPID(arm_pot.getValue())&&(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)))
+                pid_arm.newSetpoint(arm_pot.getValue());
+            arm_speed = pid_arm.getOutput();
+            pid_telescope.newSetpoint(telescopeLenCalc(armRotationToAngles(telescopeLenCalc(arm_pot.getValue()))));
+            if(!pid_telescope.doPID((int) Math.round(telescope_pot.getValue()*constants.telecope_scaling_factor))&&(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)))
+                pid_telescope.newSetpoint(telescope_pot.getValue());
+            telescope_speed = pid_telescope.getOutput();
         }
         setVelocities();
-    }
+    } //done
     private static void updateLift(){
             if(!operator_joy.getRawButtonPressed(constants.joy_button_Back)){ //front to position
                 if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
@@ -123,8 +112,8 @@ public class Lift {
         talon_telescope.set(telescope_speed);
     } //done
     private static int armRotationToAngles(int current){
-        return (int) Math.round((current - constants.arm_val_at_min_angle) * constants.arm_scaling_factor - constants.arm_min_angle);
-    }
+        return (int) Math.round((current - constants.arm_val_at_min_angle) * constants.arm_scaling_factor + constants.arm_min_angle);
+    } //done
     private static int telescopeLenCalc(int angle){
         if(angle > 120)
             angle = 180 - angle;
@@ -134,10 +123,14 @@ public class Lift {
         return (int) Math.round(constants.maximum_length/Math.cos(Math.toRadians(angle)) - constants.minimum_length);
     } //done
 
+    //get and sets
+    public void setArmSetpoint(int arm_setpoint){ this.arm_setpoint = arm_setpoint; }
     public static String getPositionIndicator(){ return position_indicator; }
     public static boolean getManualIndicator(){ return manual_indicator; }
     public static int getArmAngle(){ return armRotationToAngles(arm_pot.getValue()); }
     public static int getTelescopePot(){ return telescope_pot.getValue(); }
     public static int getArmRaw(){ return arm_pot.getValue(); }
+    public static boolean getArmPidDone(){ return pid_arm.getPidDone(); }
+    public static boolean getTeleIsDone(){ return pid_telescope.getPidDone(); }
 
 }

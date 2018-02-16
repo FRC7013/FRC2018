@@ -2,6 +2,7 @@ package frc.team7013.robot.Util;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.*;
@@ -10,7 +11,6 @@ import openrio.powerup.MatchData;
 
 import java.util.Locale;
 
-//TODO: Finish the whole thing
 public class SmartDashThing {
 
     private static SmartDashboard smart_dash;
@@ -46,8 +46,5 @@ public class SmartDashThing {
         smart_dash.putNumber("Telescope Position:", lift.getTelescopePot());
         //drive
         smart_dash.putBoolean("Speed Multiplier:", drive.getSpeedMultiplier());
-
-
-
     } //done
 }
