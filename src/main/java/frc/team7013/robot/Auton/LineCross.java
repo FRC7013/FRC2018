@@ -9,7 +9,7 @@ public class LineCross {
     private static Drive robot_drive;
     private static int auto_index, drive_setpoint_index;
 
-    LineCross(Drive robot_drive){
+    public LineCross(Drive robot_drive){
         this.robot_drive = robot_drive;
         auto_index = 0;
         drive_setpoint_index = 0;

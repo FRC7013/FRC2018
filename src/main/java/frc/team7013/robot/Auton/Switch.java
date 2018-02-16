@@ -14,7 +14,7 @@ public class Switch {
     private static int auto_index, drive_setpoint_index;
     private static boolean switch_location;
 
-    public Switch(boolean switch_location, Drive robor_drive, Lift lift, Intake intake){
+    public Switch(Drive robor_drive, Lift lift, Intake intake){
         this.switch_location = switch_location;
         this.robot_drive = robor_drive;
         this.lift = lift;

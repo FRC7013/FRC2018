@@ -18,19 +18,25 @@ public class SmartDashThing {
     private static Lift lift;
     private static Intake intake;
     private static boolean location = false;
-    public static int autonSelector;
+    public static SendableChooser autonSelector;
+
 
     public SmartDashThing(Drive drive, Lift lift, Intake intake){
         this.lift = lift;
         this.drive = drive;
         this.intake = intake;
         smart_dash = new SmartDashboard();
+        autonSelector = new SendableChooser();
+        autonSelector.addDefault("Do nothing", new Auto());
+        autonSelector.addObject("Line Cross", new Auto(new LineCross(drive)));
+        autonSelector.addObject("Switch", new Auto(new Switch(drive, lift, intake)));
+        autonSelector.addObject("Scale", new Auto(new Scale(drive, lift, intake)));
+        autonSelector.addObject("Scale And Switch", new Auto(new ScaleAndSwitch(drive, lift, intake)));
     } //done
     public static void updateDash(){
         //Pre Match-stuff
         smart_dash.putBoolean("Arm In Starting Position", (lift.getArmAngle() == 90)?true:false);
-        autonSelector = (int) smart_dash.getNumber("Auton Selector \n1 - Line Cross \n2 - Switch \n3 - Scale \n4 - Scale and Switch", 0);
-
+        smart_dash.putData("Auton Selector",autonSelector);
         //intake
         //smart_dash.putBoolean("Has Cube Left:", intake.get_has_cube_left());
         //smart_dash.putBoolean("Has Cube Right", intake.get_has_cube_right());

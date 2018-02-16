@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {//TODO: finish auto init
         smart_dash.updateDash();
         robot_drive.zeroDriveEncoders();
-        auton = new Auto(smart_dash.autonSelector, robot_drive, lift, intake);
+        auton = (Auto) smart_dash.autonSelector.getSelected();
     }//done
     @Override
     public void autonomousPeriodic() { //TODO: finish auto periodic
