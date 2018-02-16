@@ -25,33 +25,37 @@ public class Robot extends IterativeRobot {
         intake = new Intake(driver_joy);
         robot_drive = new Drive(driver_joy);
         smart_dash = new SmartDashThing(robot_drive, lift, intake);
-        auton = new Auto(smart_dash.autonSelector);
+        smart_dash.updateDash();
     } //done
     @Override
     public void autonomousInit() {//TODO: finish auto init
         smart_dash.updateDash();
         robot_drive.zeroDriveEncoders();
-    }
+        auton = new Auto(smart_dash.autonSelector);
+    }//done
     @Override
     public void autonomousPeriodic() { //TODO: finish auto periodic
         smart_dash.updateDash();
         auton.doAuto();
-    }
+    }//done
     @Override
     public void teleopInit() {//TODO: finish tele init
         smart_dash.updateDash();
-    }
+    }//done
     @Override
     public void teleopPeriodic() { //TODO: finish tele periodic
         smart_dash.updateDash();
         intake.doIntake();
         lift.doLift();
         robot_drive.doDrive();
-    }
+    }//done
 
     @Override
     public void disabledPeriodic() {
-    }
+        smart_dash.updateDash();
+    }//done
+
+    //probably never going to use these
     @Override
     public void testPeriodic() { }
     @Override
