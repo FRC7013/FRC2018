@@ -17,12 +17,12 @@ public class Drive {
         this.auton = auton;
         encoder_left = new Encoder(constants.encoder_left[0], constants.encoder_left[1]);
         encoder_right = new Encoder(constants.encoder_right[0], constants.encoder_right[1]);
-    }
+    } //done
     Drive(Joystick driver_joy){
         sparksLeft = new Spark(constants.sparks_left);
         sparksRight = new Spark(constants.sparks_right);
         this.driver_joy = driver_joy;
-    }
+    } //done
     public static void doDrive(){
         toggleSpeed();
         double left = driver_joy.getRawAxis(constants.joy_left_Y);
@@ -30,7 +30,7 @@ public class Drive {
 
         sparksLeft.set(((left>constants.joy_deadzone)?left:0)/speed_multiplier);
         sparksRight.set(((right>constants.joy_deadzone)?right:0)/speed_multiplier);
-    }
+    } //done
     public static void doPIDDrive(){
         //TODO: write auto sender for drive
 
@@ -40,7 +40,7 @@ public class Drive {
             speed_multiplier = 2;
         else if(driver_joy.getRawButtonPressed(constants.joy_button_leftBumper))
             speed_multiplier = 1;
-    }
+    } //done
 
     public static int getEncoderLeft(){ return encoder_left.get(); }
     public static int getEncoderRight(){ return  encoder_right.get(); }

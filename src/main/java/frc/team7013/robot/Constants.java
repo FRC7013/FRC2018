@@ -43,7 +43,8 @@ public class Constants {
     public static double telecope_scaling_factor = 0;
     public static double minimum_length = 27.25;
     public static double maximum_length = 32;
-
+    public static int arm_min_angle = -36;
+    public static int arm_val_at_min_angle = 0;
     //Arm PID
     public static double arm_Kp = 0;
     public static double arm_Kd = 0;
@@ -55,7 +56,7 @@ public class Constants {
     public static double telescope_Ki = 0;
 
     //Intake
-    public static double intake_speed = 0.0;
+    public static double intake_speed = 1.0;
     public static int sparks_intake_left = 4;
     public static int sparks_intake_right = 5;
     public static int box_button_left = 0;

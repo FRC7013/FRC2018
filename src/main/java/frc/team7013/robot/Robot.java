@@ -18,12 +18,10 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void robotInit() {
-        constants = new Constants();
         driver_joy = new Joystick(constants.driver_joy_port);
         operator_joy = new Joystick(constants.operator_joy_port);
         robot_drive = new Drive(driver_joy);
-
-        auton = (Auto) smart_dash.autonSelector.getSelected();
+        auton = new Auto(smart_dash.autonSelector);
     }
 
     @Override
@@ -31,7 +29,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        auton.doAuto();
     }
 
     @Override
@@ -43,16 +40,14 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledPeriodic() {
-        lift.zeroEncoders();
+
     }
     
     @Override
     public void autonomousPeriodic() { }
 
     @Override
-    public void teleopPeriodic() {
-        lift.doLift();
-    }
+    public void teleopPeriodic() {  }
 
     @Override
     public void testPeriodic() { }
