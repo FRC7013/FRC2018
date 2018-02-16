@@ -7,13 +7,13 @@ import edu.wpi.first.wpilibj.Spark;
 //TODO: Test the doIntake() function.
 public class Intake {
 
-    private static Constants constants;
-    private static Spark sparks_intake_left, sparks_intake_right;
-    private static DigitalInput cube_checker_left, cube_checker_right;
-    private static boolean has_cube_left, has_cube_right;
-    private static Joystick driver_joy;
-    private static int state;
-    private static boolean previous_state;
+    private  Constants constants;
+    private  Spark sparks_intake_left, sparks_intake_right;
+    private  DigitalInput cube_checker_left, cube_checker_right;
+    private  boolean has_cube_left, has_cube_right;
+    private  Joystick driver_joy;
+    private  int state;
+    private  boolean previous_state;
 
     //constructors
     Intake(Joystick driver_joy){
@@ -25,10 +25,10 @@ public class Intake {
     } //done
 
     //functionality
-    private static void updateCube(){
+    private  void updateCube(){
         has_cube_left = cube_checker_left.get();
     } //done
-    public static void doIntake(){
+    public  void doIntake(){
         updateCube();
         if(!DriverStation.getInstance().isAutonomous()){ state = 0; }
         if(buttonMagic(driver_joy.getRawAxis(constants.joy_right_trigger)>.5) || state == 1){
@@ -45,15 +45,15 @@ public class Intake {
         }
 
     } //done
-    private static boolean buttonMagic(boolean currentState){
-        if(currentState != previous_state && currentState == true)
+    private  boolean buttonMagic(boolean currentState){
+        if(currentState != previous_state && currentState)
             previous_state = true;
-        else if(currentState == previous_state && currentState == true)
+        else if(currentState == previous_state && currentState)
             previous_state = false;
         return previous_state;
     } //done
     //get and sets
     public void setIntakeState(int state){ this.state = state; }
-    public static boolean get_has_cube_left(){ return has_cube_left; }
-    public static boolean get_has_cube_right(){ return has_cube_right; }
+    public  boolean get_has_cube_left(){ return has_cube_left; }
+    public  boolean get_has_cube_right(){ return has_cube_right; }
 }

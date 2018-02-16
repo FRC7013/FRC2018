@@ -8,16 +8,16 @@ import frc.team7013.robot.Util.PID;
 //TODO: test me, test all of me, please!!!!!
 public class Lift {
 
-    private static Constants constants;
-    private static Spark sparks_arm;
-    private static PWMTalonSRX talon_telescope;
-    private static Joystick operator_joy;
-    private static AnalogInput arm_pot, telescope_pot;
-    private static String position_indicator = "";
-    private static int arm_setpoint;
-    private static boolean manual_indicator = false;
-    private static PID pid_arm, pid_telescope;
-    private static double arm_speed, telescope_speed;
+    private  Constants constants;
+    private  Spark sparks_arm;
+    private  PWMTalonSRX talon_telescope;
+    private  Joystick operator_joy;
+    private  AnalogInput arm_pot, telescope_pot;
+    private  String position_indicator = "";
+    private  int arm_setpoint;
+    private  boolean manual_indicator = false;
+    private  PID pid_arm, pid_telescope;
+    private  double arm_speed, telescope_speed;
 
     //constructors
     Lift(Joystick operator_joy) {
@@ -33,7 +33,7 @@ public class Lift {
     }
 
     //functionality
-    public static void doLift(){
+    public  void doLift(){
         if(!doManual()){//check if in manual first
             if(!DriverStation.getInstance().isAutonomous()) { updateLift(); }
             pid_arm.newSetpoint(arm_setpoint);
@@ -47,7 +47,7 @@ public class Lift {
         }
         setVelocities();
     } //done
-    private static void updateLift(){
+    private  void updateLift(){
             if(!operator_joy.getRawButtonPressed(constants.joy_button_Back)){ //front to position
                 if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
                     arm_setpoint = constants.setpoint_floor_front;
@@ -86,7 +86,7 @@ public class Lift {
                 }
             }
     } //done
-    private static boolean doManual(){
+    private  boolean doManual(){
         if(operator_joy.getRawButtonPressed(constants.joy_button_Start)){ //manual engage
             manual_indicator = true;
             if(operator_joy.getRawButtonPressed(constants.joy_button_leftStick))
@@ -107,14 +107,14 @@ public class Lift {
 
         return manual_indicator;
     } //done
-    private static void setVelocities(){
+    private  void setVelocities(){
         sparks_arm.set(arm_speed);
         talon_telescope.set(telescope_speed);
     } //done
-    private static int armRotationToAngles(int current){
+    private  int armRotationToAngles(int current){
         return (int) Math.round((current - constants.arm_val_at_min_angle) * constants.arm_scaling_factor + constants.arm_min_angle);
     } //done
-    private static int telescopeLenCalc(int angle){
+    private  int telescopeLenCalc(int angle){
         if(angle > 120)
             angle = 180 - angle;
         else if(angle > 60 && angle < 120)
@@ -125,12 +125,12 @@ public class Lift {
 
     //get and sets
     public void setArmSetpoint(int arm_setpoint){ this.arm_setpoint = arm_setpoint; }
-    public static String getPositionIndicator(){ return position_indicator; }
-    public static boolean getManualIndicator(){ return manual_indicator; }
-    public static int getArmAngle(){ return armRotationToAngles(arm_pot.getValue()); }
-    public static int getTelescopePot(){ return telescope_pot.getValue(); }
-    public static int getArmRaw(){ return arm_pot.getValue(); }
-    public static boolean getArmPidDone(){ return pid_arm.getPidDone(); }
-    public static boolean getTeleIsDone(){ return pid_telescope.getPidDone(); }
+    public  String getPositionIndicator(){ return position_indicator; }
+    public  boolean getManualIndicator(){ return manual_indicator; }
+    public  int getArmAngle(){ return armRotationToAngles(arm_pot.getValue()); }
+    public  int getTelescopePot(){ return telescope_pot.getValue(); }
+    public  int getArmRaw(){ return arm_pot.getValue(); }
+    public  boolean getArmPidDone(){ return pid_arm.getPidDone(); }
+    public  boolean getTeleIsDone(){ return pid_telescope.getPidDone(); }
 
 }

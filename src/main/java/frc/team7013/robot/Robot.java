@@ -7,13 +7,13 @@ import frc.team7013.robot.Auton.*;
 
 
 public class Robot extends IterativeRobot {
-    public static Constants constants;
-    public static Drive robot_drive;
-    public static Joystick driver_joy, operator_joy;
-    public static Lift lift;
-    public static Intake intake;
-    public static SmartDashThing smart_dash;
-    public static Auto auton;
+    private Constants constants;
+    private Drive robot_drive;
+    private Joystick driver_joy, operator_joy;
+    private Lift lift;
+    private Intake intake;
+    private SmartDashThing smart_dash;
+    private Auto auton;
 
 
     @Override
@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {//TODO: finish auto init
         smart_dash.updateDash();
         robot_drive.zeroDriveEncoders();
-        auton = (Auto) smart_dash.autonSelector.getSelected();
+        auton = smart_dash.autonSelector.getSelected();
     }//done
     @Override
     public void autonomousPeriodic() { //TODO: finish auto periodic
