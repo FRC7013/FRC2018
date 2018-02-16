@@ -2,8 +2,8 @@ package frc.team7013.robot.Util;
 
 public class PID {
 
-    private double Kp, Kd, Ki, output, previous_Kd, accum_Ki;
-    private int error, setpoint, cutoff_val;
+    private double Kp, Kd, Ki, output, previous_Kd, accum_Ki, setpoint, error;
+    private int cutoff_val;
     private boolean isDone;
 
     public PID(double Kp, double Kd, double Ki, int cutoff_val){
@@ -15,7 +15,7 @@ public class PID {
         isDone = false;
     }
 
-    public void newSetpoint(int setpoint){
+    public void newSetpoint(double setpoint){
         this.setpoint = setpoint;
         error = 0;
         output = 0;

@@ -13,7 +13,7 @@ public class Drive {
     private static Joystick driver_joy ;
     private static double speed_multiplier = 1;
     private static Encoder encoder_left, encoder_right;
-    private static int linear_setpoint;
+    private static double linear_setpoint;
     private static PID pid_drive;
 
    //constructors
@@ -56,7 +56,7 @@ public class Drive {
 
     //get and sets
     public void zeroDriveEncoders(){ encoder_right.reset(); encoder_left.reset(); }
-    public void setLinearSetpoint(){ this.linear_setpoint = linear_setpoint; }
+    public void setLinearSetpoint(double linear_setpoint){ this.linear_setpoint = linear_setpoint; }
     public static int getEncoderLeft(){ return encoder_left.get(); }
     public static int getEncoderRight(){ return  encoder_right.get(); }
     public static boolean getSpeedMultiplier(){ return (speed_multiplier==2)?true:false; }

@@ -46,6 +46,7 @@ public class Constants {
     public static double maximum_length = 32;
     public static int arm_min_angle = -36;
     public static int arm_val_at_min_angle = 0;
+
     //Arm PID
     public static double arm_Kp = 0;
     public static double arm_Kd = 0;
@@ -63,7 +64,7 @@ public class Constants {
     public static int box_button_left = 0;
     public static int box_button_right = 0;
 
-    //Setpoint
+    //Arm Setpoints, In terms of ticks
     public static int setpoint_floor_front = 0;
     public static int setpoint_floor_rear = 0;
     public static int setpoint_portal_front = 0;
@@ -74,6 +75,8 @@ public class Constants {
     public static int setpoint_scale_rear = 0;
     public static int setpooint_starting_pos = 0;
 
+    //Drive Setpoints, In terms of inches ?? maybe
+    public static double[] line_cross_drive_setpoints = {0.0, 0.0};
     //Encoder Cuttoffs
     public static int cimcoder_cuttoff = 0;
     public static int potentiometer_deadzone = 0;
