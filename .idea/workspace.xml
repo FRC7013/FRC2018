@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19c91168-9b02-44a3-8652-f1456026a4bf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/frc/team7013/robot/Robot.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/frc/team7013/robot/Util/SmartDashThing.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Constants.java" afterPath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Constants.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Drive.java" afterPath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Drive.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Robot.java" afterPath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Robot.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/SmartDashThing.java" afterPath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/SmartDashThing.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java" afterPath="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -45,6 +41,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Lift.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Lift.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1">
+              <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+              <folding>
+                <element signature="method#Lift#0;class#Lift#0" expanded="false" />
+                <element signature="method#doLift#0;class#Lift#0" expanded="false" />
+                <element signature="method#setVelocities#0;class#Lift#0" expanded="false" />
+                <element signature="method#armRotationToAngles#0;class#Lift#0" expanded="false" />
+                <element signature="method#telescopeLenCalc#0;class#Lift#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Drive.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Drive.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -69,13 +81,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+            <state relative-caret-position="51">
+              <caret line="3" column="32" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="e#1325#1326#0" expanded="true" />
                 <element signature="e#1388#1389#0" expanded="true" />
               </folding>
@@ -93,15 +104,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Intake.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Intake.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+            <state relative-caret-position="340">
+              <caret line="56" column="6" lean-forward="false" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
               <folding>
                 <element signature="method#Intake#0;class#Intake#0" expanded="false" />
                 <element signature="method#updateCube#0;class#Intake#0" expanded="false" />
                 <element signature="method#doIntake#0;class#Intake#0" expanded="false" />
+                <element signature="method#buttonMagic#0;class#Intake#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -625,12 +637,13 @@
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Auton/Switch.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Auton/Auto.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/PID.java" />
-        <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Lift.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/SmartDashThing.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Robot.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Drive.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/ButtonMagic.java" />
+        <option value="$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java" />
       </list>
     </option>
   </component>
@@ -703,6 +716,15 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="robot" type="462c0819:PsiDirectoryNode" />
               <item name="Auton" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FRC2018" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FRC2018" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="robot" type="462c0819:PsiDirectoryNode" />
+              <item name="Util" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -886,12 +908,12 @@
       <updated>1518734550260</updated>
       <workItem from="1518734551932" duration="46000" />
       <workItem from="1518734727949" duration="58000" />
-      <workItem from="1518750839255" duration="22349000" />
+      <workItem from="1518750839255" duration="23755000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22453000" />
+    <option name="totallyTimeSpent" value="23859000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -990,8 +1012,6 @@
           <folding>
             <element signature="method#Lift#0;class#Lift#0" expanded="false" />
             <element signature="method#doLift#0;class#Lift#0" expanded="false" />
-            <element signature="method#updateLift#0;class#Lift#0" expanded="false" />
-            <element signature="method#doManual#0;class#Lift#0" expanded="false" />
             <element signature="method#setVelocities#0;class#Lift#0" expanded="false" />
             <element signature="method#armRotationToAngles#0;class#Lift#0" expanded="false" />
             <element signature="method#telescopeLenCalc#0;class#Lift#0" expanded="false" />
@@ -1063,22 +1083,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Lift.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="21" column="17" lean-forward="false" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
-          <folding>
-            <element signature="method#Lift#0;class#Lift#0" expanded="false" />
-            <element signature="method#doLift#0;class#Lift#0" expanded="false" />
-            <element signature="method#updateLift#0;class#Lift#0" expanded="false" />
-            <element signature="method#doManual#0;class#Lift#0" expanded="false" />
-            <element signature="method#setVelocities#0;class#Lift#0" expanded="false" />
-            <element signature="method#armRotationToAngles#0;class#Lift#0" expanded="false" />
-            <element signature="method#telescopeLenCalc#0;class#Lift#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/SmartDashThing.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -1094,18 +1098,6 @@
         <state relative-caret-position="510">
           <caret line="30" column="5" lean-forward="true" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="method#Intake#0;class#Intake#0" expanded="false" />
-            <element signature="method#updateCube#0;class#Intake#0" expanded="false" />
-            <element signature="method#doIntake#0;class#Intake#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1129,14 +1121,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Lift.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1">
+          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+          <folding>
+            <element signature="method#Lift#0;class#Lift#0" expanded="false" />
+            <element signature="method#doLift#0;class#Lift#0" expanded="false" />
+            <element signature="method#setVelocities#0;class#Lift#0" expanded="false" />
+            <element signature="method#armRotationToAngles#0;class#Lift#0" expanded="false" />
+            <element signature="method#telescopeLenCalc#0;class#Lift#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="48" column="30" lean-forward="true" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+        <state relative-caret-position="51">
+          <caret line="3" column="32" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="e#1325#1326#0" expanded="true" />
             <element signature="e#1388#1389#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Util/ButtonMagic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/frc/team7013/robot/Intake.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="56" column="6" lean-forward="false" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
+          <folding>
+            <element signature="method#Intake#0;class#Intake#0" expanded="false" />
+            <element signature="method#updateCube#0;class#Intake#0" expanded="false" />
+            <element signature="method#doIntake#0;class#Intake#0" expanded="false" />
+            <element signature="method#buttonMagic#0;class#Intake#0" expanded="false" />
           </folding>
         </state>
       </provider>

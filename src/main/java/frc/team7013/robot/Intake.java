@@ -13,6 +13,7 @@ public class Intake {
     private static boolean has_cube_left, has_cube_right;
     private static Joystick driver_joy;
     private static int state;
+    private static boolean previous_state;
 
     //constructors
     Intake(Joystick driver_joy){
@@ -22,7 +23,7 @@ public class Intake {
         cube_checker_left = new DigitalInput(constants.box_button_left);
         cube_checker_right = new DigitalInput(constants.box_button_right);
         state = 0;
-
+        previous_state = false;
     } //done
 
     //functionality
@@ -33,21 +34,27 @@ public class Intake {
     public static void doIntake(){
         updateCube();
         if(!DriverStation.getInstance().isAutonomous()){ state = 0; }
-        if(driver_joy.getRawAxis(constants.joy_right_trigger)>.5 || state == 1){
-            sparks_intake_left.set(constants.intake_speed);
+        if(buttonMagic(driver_joy.getRawAxis(constants.joy_right_trigger)>.5) || state == 1){
             sparks_intake_right.set(constants.intake_speed);
+            sparks_intake_left.set(constants.intake_speed);
         }
-        else if(driver_joy.getRawAxis(constants.joy_left_trigger)>.5 || state == -1){
+        else if(buttonMagic(driver_joy.getRawAxis(constants.joy_left_trigger)>.5)|| state == -1){
             sparks_intake_left.set(-constants.intake_speed);
             sparks_intake_right.set(-constants.intake_speed);
         }
         else{
-            sparks_intake_left.set(0);
             sparks_intake_right.set(0);
+            sparks_intake_left.set(0);
         }
 
     } //done
-
+    private static boolean buttonMagic(boolean currentState){
+        if(currentState != previous_state && currentState == true)
+            previous_state = true;
+        else if(currentState == previous_state && currentState == true)
+            previous_state = false;
+        return previous_state;
+    } //done
     //get and sets
     public void setIntakeState(int state){ this.state = state; }
     public static boolean get_has_cube_left(){ return has_cube_left; }
