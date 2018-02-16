@@ -5,7 +5,7 @@ public class PID {
     private double Kp, Kd, Ki, output, previous_Kd, accum_Ki;
     private int error, setpoint, cutoff_val;
 
-    PID(double Kp, double Kd, double Ki, int cutoff_val){
+    public PID(double Kp, double Kd, double Ki, int cutoff_val){
         this.Kp = Kp;
         this.Kd = Kd;
         this.Ki = Ki;

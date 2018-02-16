@@ -23,6 +23,8 @@ public class Constants {
     public static int joy_left_trigger = 2;
     public static int joy_right_trigger = 3;
 
+    public static double joy_deadzone = .1;
+
     //Drive
     public static int sparks_left = 0;
     public static int sparks_right = 1;
@@ -34,11 +36,13 @@ public class Constants {
 
     //Lift
     public static int sparks_arm = 2;
-    public static int sparks_telescope = 3;
-    public static int[] encoder_arm = {4,5};
-    public static int[] encoder_telescope = {6,7};
-    public static int arm_limit = 0;
-    public static int telescope_limit = 0;
+    public static int talon_telescope = 3;
+    public static int arm_pot = 0;
+    public static int telescope_pot = 1;
+    public static double arm_scaling_factor = (1800 / 5)/(4096/10);
+    public static double telecope_scaling_factor = 0;
+    public static double minimum_length = 27.25;
+    public static double maximum_length = 32;
 
     //Arm PID
     public static double arm_Kp = 0;
@@ -58,19 +62,17 @@ public class Constants {
     public static int box_button_right = 0;
 
     //Setpoint
-    public static double setpoint_floor_front = 0;
-    public static double setpoint_floor_rear = 0;
-    public static double setpoint_porttal_front = 0;
-    public static double setpoint_portal_rear = 0;
-    public static double setpoint_switch_front = 0;
-    public static double setpoint_switch_rear = 0;
-    public static double setpoint_scale_front = 0;
-    public static double setpoint_scale_rear = 0;
+    public static int setpoint_floor_front = 0;
+    public static int setpoint_floor_rear = 0;
+    public static int setpoint_portal_front = 0;
+    public static int setpoint_portal_rear = 0;
+    public static int setpoint_switch_front = 0;
+    public static int setpoint_switch_rear = 0;
+    public static int setpoint_scale_front = 0;
+    public static int setpoint_scale_rear = 0;
+    public static int setpooint_starting_pos = 0;
 
     //Encoder Cuttoffs
-    public static int cuttoff_talon_mag_encoder = 0;
-    public static int cuttoff_greyhill_encoder = 0;
-    public static int cuttoff_cimCoder_encoder = 0;
-    public static int cuttoff_775_encoder = 0;
+    public static int potentiometer_deadzone = 0;
 
 }

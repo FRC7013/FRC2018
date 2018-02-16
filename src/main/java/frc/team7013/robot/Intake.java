@@ -2,7 +2,7 @@ package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
-
+//TODO: finish the whole thing
 public class Intake {
 
     private static Spark Sparks_intake_left, Sparks_intake_right;

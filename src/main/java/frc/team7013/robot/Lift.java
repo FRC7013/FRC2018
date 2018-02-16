@@ -1,74 +1,104 @@
 package frc.team7013.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.*;
+import frc.team7013.robot.Auton.Auto;
 import frc.team7013.robot.Util.PID;
 
 public class Lift {
 
     private static Constants constants;
     private static Spark sparks_arm;
-    private static VictorSP victor_telescope;
+    private static PWMTalonSRX talon_telescope;
     private static Joystick operator_joy;
-    private static Encoder encoder_arm, encoder_telescope;
+    private static AnalogInput arm_pot, telescope_pot;
     private static String position_indicator = "";
+    private static int arm_setpoint = 0;
     private static boolean manual_indicator = false;
     private static PID pid_arm, pid_telescope;
-    private static DigitalInput zero_arm, zero_telescope;
     private static double arm_speed, telescope_speed;
+    private static Auto auton;
+    private static DriverStation driver_station;
 
     Lift(Joystick operator_joy){
+        this.operator_joy = operator_joy;
+        initLift();
+    }
+    Lift(Auto auton){
+        this.auton = auton;
+        initLift();
+    }
+    private static void initLift(){
+        constants = new Constants();
+        sparks_arm = new Spark(constants.sparks_arm);
+        talon_telescope = new PWMTalonSRX(constants.talon_telescope);
+        arm_pot = new AnalogInput(constants.arm_pot);
+        telescope_pot = new AnalogInput(constants.telescope_pot);
+        pid_arm = new PID(constants.arm_Kp, constants.arm_Kd, constants.arm_Ki, constants.potentiometer_deadzone);
+        arm_speed = 0;
+        telescope_speed = 0;
 
     }
 
-    public static void zeroEncoders(){
-        if(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)){
-            encoder_arm.reset();
-            encoder_telescope.reset();
-        }
-    }
     public static void doLift(){
-        doManual();
-        if(!operator_joy.getRawButton(constants.joy_button_leftStick)&&!operator_joy.getRawButton(constants.joy_button_rightStick)){//Cancel Setpoint
+        if(!doManual()){//check if in manual first
+            if(driver_station.isAutonomous()){ //TODO: write sender for auton
+
+            }
+            else{
+                updateLift();
+                pid_arm.newSetpoint(arm_setpoint);
+                if(!pid_arm.doPID(arm_pot.getValue())&&(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)))
+                    pid_arm.newSetpoint(arm_pot.getValue());
+                arm_speed = pid_arm.getOutput();
+                pid_telescope.newSetpoint(telescopeLenCalc(arm_pot.getValue()));
+                if(!pid_telescope.doPID((int) Math.round(telescope_pot.getValue()*constants.telecope_scaling_factor))&&(operator_joy.getRawButtonPressed(constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(constants.joy_button_rightStick)))
+                    pid_telescope.newSetpoint(telescope_pot.getValue());
+                telescope_speed = pid_telescope.getOutput();
+            }
+        }
+        setVelocities();
+    }
+    private static void updateLift(){
             if(!operator_joy.getRawButtonPressed(constants.joy_button_Back)){ //front to position
                 if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
-                    pid_arm.newSetpoint(constants.setpoint_floor_front);
-                    position_indicator = "Floor front";
+                    arm_setpoint = constants.setpoint_floor_front;
+                    position_indicator = "Front Floor";
                 }
                 else if(operator_joy.getRawButtonPressed(constants.joy_button_B)){ //portal
-
+                    arm_setpoint = constants.setpoint_portal_front;
+                    position_indicator = "Front Portal";
                 }
                 else if(operator_joy.getRawButtonPressed(constants.joy_button_X)){ //switch
-
+                    arm_setpoint = constants.setpoint_switch_front;
+                    position_indicator = "Front Switch";
                 }
                 else if(operator_joy.getRawButtonPressed(constants.joy_button_Y)){ //scale
-
+                    arm_setpoint = constants.setpoint_scale_front;
+                    position_indicator = "Front Scale";
                 }
             }
             else{ //rear to position
                 if(operator_joy.getRawButtonPressed(constants.joy_button_A)){ //floor
-                    pid_arm.newSetpoint(constants.setpoint_floor_rear);
-                    position_indicator = "Floor rear";
+                    arm_setpoint = constants.setpoint_floor_rear;
+                    position_indicator = "Rear Floor";
                 }
                 else if(operator_joy.getRawButtonPressed(constants.joy_button_B)){ //portal
-
+                    arm_setpoint = constants.setpoint_portal_rear;
+                    position_indicator = "Rear Portal";
                 }
                 else if(operator_joy.getRawButtonPressed(constants.joy_button_X)){ //switch
-
+                    arm_setpoint = constants.setpoint_switch_rear;
+                    position_indicator = "Rear Switch";
                 }
                 else if(operator_joy.getRawButtonPressed(constants.joy_button_Y)){ //scale
+                    arm_setpoint = constants.setpoint_scale_rear;
+                    position_indicator = "Rear Scale";
 
                 }
             }
-        }
-        else{
-            arm_speed = 0;
-            telescope_speed = 0;
-        }
-        zeroEncoders();
-
-
     }
-    public static void doManual(){
+    private static boolean doManual(){
         if(operator_joy.getRawButtonPressed(constants.joy_button_Start)){ //manual engage
             manual_indicator = true;
             if(operator_joy.getRawButtonPressed(constants.joy_button_leftStick))
@@ -84,19 +114,27 @@ public class Lift {
         }
         else
             manual_indicator = false;
-    }
-    public static void setVelocities(){
-        sparks_arm.set(arm_speed);
-        victor_telescope.set(telescope_speed);
-    }
-    public static void distanceCalcs(){
 
+        return manual_indicator;
     }
-    public static int getEncoderArm(){ return encoder_arm.get();  }
-    public static int getEncoderTelescope(){ return encoder_telescope.get(); }
+    private static void setVelocities(){
+        sparks_arm.set(arm_speed);
+        talon_telescope.set(telescope_speed);
+    }
+    private static int telescopeLenCalc(int current_pos){
+        double angle = current_pos * constants.arm_scaling_factor;
+        if(angle > 120)
+            angle = 180 - angle;
+        else if(angle > 60 && angle < 120)
+            angle = 60;
+
+        return (int) Math.round(constants.maximum_length/Math.cos(Math.toRadians(angle)) - constants.minimum_length);
+    }
+
     public static String getPositionIndicator(){ return position_indicator; }
     public static boolean getManualIndicator(){ return manual_indicator; }
-    public static boolean getArmZero(){ return zero_arm.get(); }
-    public static boolean getTelescopeZero(){ return zero_telescope.get(); }
+    public static int getArmAngle(){ return (int) Math.toDegrees(Math.round(arm_pot.getValue()*constants.arm_scaling_factor)); }
+    public static int getTelescopePot(){ return telescope_pot.getValue(); }
+    public static int getArmRaw(){ return arm_pot.getValue(); }
 
 }
