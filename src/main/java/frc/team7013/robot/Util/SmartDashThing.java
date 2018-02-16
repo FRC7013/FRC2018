@@ -17,16 +17,13 @@ public class SmartDashThing {
     private static Drive drive;
     private static Lift lift;
     private static Intake intake;
-    private static Joystick driver_joy, operator_joy;
     private static boolean location = false;
     public static int autonSelector;
 
-    public SmartDashThing(Drive drive, Lift lift, Intake intake, Joystick driver_joy, Joystick operator_joy){
+    public SmartDashThing(Drive drive, Lift lift, Intake intake){
         this.lift = lift;
         this.drive = drive;
         this.intake = intake;
-        this.driver_joy = driver_joy;
-        this.operator_joy = operator_joy;
         smart_dash = new SmartDashboard();
     } //done
     public static void updateDash(){

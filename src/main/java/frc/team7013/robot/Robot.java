@@ -17,45 +17,45 @@ public class Robot extends IterativeRobot {
 
 
     @Override
-    public void robotInit() { //TODO: finish robot init
+    public void robotInit() {
         driver_joy = new Joystick(constants.driver_joy_port);
         operator_joy = new Joystick(constants.operator_joy_port);
         robot_drive = new Drive(driver_joy);
+        lift = new Lift(operator_joy);
+        intake = new Intake(driver_joy);
+        robot_drive = new Drive(driver_joy);
+        smart_dash = new SmartDashThing(robot_drive, lift, intake);
         auton = new Auto(smart_dash.autonSelector);
-    }
-
-    @Override
-    public void disabledInit() { }
-
+    } //done
     @Override
     public void autonomousInit() {//TODO: finish auto init
-        intake = new Intake();
+        smart_dash.updateDash();
+        robot_drive.zeroDriveEncoders();
     }
-
+    @Override
+    public void autonomousPeriodic() { //TODO: finish auto periodic
+        smart_dash.updateDash();
+        auton.doAuto();
+    }
     @Override
     public void teleopInit() {//TODO: finish tele init
-        intake = new Intake(operator_joy);
+        smart_dash.updateDash();
     }
-
     @Override
-    public void testInit() { }
-
+    public void teleopPeriodic() { //TODO: finish tele periodic
+        smart_dash.updateDash();
+        intake.doIntake();
+        lift.doLift();
+        robot_drive.doDrive();
+    }
 
     @Override
     public void disabledPeriodic() {
-
     }
-    
-    @Override
-    public void autonomousPeriodic() { //TODO: finish auto periodic
-
-    }
-
-    @Override
-    public void teleopPeriodic() { //TODO: finish tele periodic
-
-    }
-
     @Override
     public void testPeriodic() { }
+    @Override
+    public void disabledInit() { }
+    @Override
+    public void testInit() { }
 }

@@ -33,6 +33,7 @@ public class Constants {
     public static double drive_Ki = 0;
     public static int[] encoder_left = {0,1};
     public static int[] encoder_right = {2,3};
+    public static double distance_per_tick = (6 * Math.PI)/((50 / 24) * 20); //circumference / ticks per rotation
 
     //Lift
     public static int sparks_arm = 2;
@@ -74,6 +75,7 @@ public class Constants {
     public static int setpooint_starting_pos = 0;
 
     //Encoder Cuttoffs
+    public static int cimcoder_cuttoff = 0;
     public static int potentiometer_deadzone = 0;
 
 }
