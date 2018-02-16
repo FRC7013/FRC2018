@@ -32,8 +32,8 @@ public class SmartDashThing {
         autonSelector = (int) smart_dash.getNumber("Auton Selector \n1 - Line Cross \n2 - Switch \n3 - Scale \n4 - Scale and Switch", 0);
 
         //intake
-        smart_dash.putBoolean("Has Cube Left:", intake.get_has_cube_left());
-        smart_dash.putBoolean("Has Cube Right", intake.get_has_cube_right());
+        //smart_dash.putBoolean("Has Cube Left:", intake.get_has_cube_left());
+        //smart_dash.putBoolean("Has Cube Right", intake.get_has_cube_right());
         //lift
         smart_dash.putBoolean("Manual Mode", lift.getManualIndicator());
         smart_dash.putString("Arm Location:", lift.getPositionIndicator());

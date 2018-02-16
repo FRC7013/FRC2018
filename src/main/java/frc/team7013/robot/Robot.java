@@ -23,7 +23,6 @@ public class Robot extends IterativeRobot {
         robot_drive = new Drive(driver_joy);
         lift = new Lift(operator_joy);
         intake = new Intake(driver_joy);
-        robot_drive = new Drive(driver_joy);
         smart_dash = new SmartDashThing(robot_drive, lift, intake);
         smart_dash.updateDash();
     } //done

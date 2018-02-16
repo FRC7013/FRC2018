@@ -15,7 +15,7 @@ public class Auto {
     private static Switch _switch;
     private static ScaleAndSwitch scale_switch;
 
-    public Auto(boolean location, int AutonSelector, Drive drive, Lift lift, Intake intake){
+    public Auto(int AutonSelector, Drive drive, Lift lift, Intake intake){
         switch(AutonSelector){
             case 1:
                 line_cross = new LineCross(drive);

@@ -6,16 +6,16 @@ public class Constants {
     public static int driver_joy_port = 0;
     public static int operator_joy_port = 1;
 
-    public static int joy_button_A = 0;
-    public static int joy_button_B = 1;
-    public static int joy_button_X = 2;
-    public static int joy_button_Y = 3;
-    public static int joy_button_leftBumper = 4;
-    public static int joy_button_rightBumper = 5;
-    public static int joy_button_Back = 6;
-    public static int joy_button_Start = 7;
-    public static int joy_button_leftStick = 8;
-    public static int joy_button_rightStick = 9;
+    public static int joy_button_A = 1;
+    public static int joy_button_B = 2;
+    public static int joy_button_X = 3;
+    public static int joy_button_Y = 4;
+    public static int joy_button_leftBumper = 5;
+    public static int joy_button_rightBumper = 6;
+    public static int joy_button_Back = 7;
+    public static int joy_button_Start = 8;
+    public static int joy_button_leftStick = 9;
+    public static int joy_button_rightStick = 10;
     public static int joy_left_X = 0;
     public static int joy_left_Y = 1;
     public static int joy_right_X = 4;
@@ -61,8 +61,8 @@ public class Constants {
     public static double intake_speed = 1.0;
     public static int sparks_intake_left = 4;
     public static int sparks_intake_right = 5;
-    public static int box_button_left = 0;
-    public static int box_button_right = 0;
+    public static int box_button_left = 5;
+    public static int box_button_right = 6;
 
     //Arm Setpoints, In terms of ticks
     public static int setpoint_floor_front = 0;

@@ -20,8 +20,6 @@ public class Intake {
         this.driver_joy = driver_joy;
         sparks_intake_left = new Spark(constants.sparks_intake_left);
         sparks_intake_right = new Spark(constants.sparks_intake_right);
-        cube_checker_left = new DigitalInput(constants.box_button_left);
-        cube_checker_right = new DigitalInput(constants.box_button_right);
         state = 0;
         previous_state = false;
     } //done
@@ -29,7 +27,6 @@ public class Intake {
     //functionality
     private static void updateCube(){
         has_cube_left = cube_checker_left.get();
-        has_cube_right = cube_checker_right.get();
     } //done
     public static void doIntake(){
         updateCube();

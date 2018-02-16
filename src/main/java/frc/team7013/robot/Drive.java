@@ -18,12 +18,12 @@ public class Drive {
 
    //constructors
     Drive(Joystick driver_joy){
+        this.driver_joy = driver_joy;
         sparksLeft = new Spark(constants.sparks_left);
         sparksRight = new Spark(constants.sparks_right);
         encoder_left = new Encoder(constants.encoder_left[0], constants.encoder_left[1]);
         encoder_right = new Encoder(constants.encoder_right[0], constants.encoder_right[1], true);
         linear_setpoint = 0;
-        this.driver_joy = driver_joy;
         pid_drive = new PID(constants.drive_Kp, constants.drive_Kd, constants.drive_Ki, constants.cimcoder_cuttoff);
         pid_drive.newSetpoint(0);
         encoder_right.setDistancePerPulse(constants.distance_per_tick);
