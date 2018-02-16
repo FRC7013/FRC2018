@@ -7,8 +7,7 @@ import frc.team7013.robot.Auton.Auto;
 import frc.team7013.robot.Util.PID;
 
 public class Drive {
-
-    private Constants constants;
+    
     private Spark sparksLeft, sparksRight;
     private  Joystick driver_joy ;
     private  double speed_multiplier = 1;
@@ -19,25 +18,25 @@ public class Drive {
    //constructors
     Drive(Joystick driver_joy){
         this.driver_joy = driver_joy;
-        sparksLeft = new Spark(constants.sparks_left);
-        sparksRight = new Spark(constants.sparks_right);
-        encoder_left = new Encoder(constants.encoder_left[0], constants.encoder_left[1]);
-        encoder_right = new Encoder(constants.encoder_right[0], constants.encoder_right[1], true);
+        sparksLeft = new Spark(Constants.sparks_left);
+        sparksRight = new Spark(Constants.sparks_right);
+        encoder_left = new Encoder(Constants.encoder_left[0], Constants.encoder_left[1]);
+        encoder_right = new Encoder(Constants.encoder_right[0], Constants.encoder_right[1], true);
         linear_setpoint = 0;
-        pid_drive = new PID(constants.drive_Kp, constants.drive_Kd, constants.drive_Ki, constants.cimcoder_cuttoff);
+        pid_drive = new PID(Constants.drive_Kp, Constants.drive_Kd, Constants.drive_Ki, Constants.cimcoder_cuttoff);
         pid_drive.newSetpoint(0);
-        encoder_right.setDistancePerPulse(constants.distance_per_tick);
-        encoder_left.setDistancePerPulse(constants.distance_per_tick);
+        encoder_right.setDistancePerPulse(Constants.distance_per_tick);
+        encoder_left.setDistancePerPulse(Constants.distance_per_tick);
     } //done
 
     //functionality
     public void doDrive(){
         toggleSpeed();
-        double left = driver_joy.getRawAxis(constants.joy_left_Y);
-        double right = driver_joy.getRawAxis(constants.joy_right_Y);
+        double left = driver_joy.getRawAxis(Constants.joy_left_Y);
+        double right = driver_joy.getRawAxis(Constants.joy_right_Y);
 
-        sparksLeft.set(((left>constants.joy_deadzone)?left:0)/speed_multiplier);
-        sparksRight.set(-((right>constants.joy_deadzone)?right:0)/speed_multiplier);
+        sparksLeft.set(((left>Constants.joy_deadzone)?left:0)/speed_multiplier);
+        sparksRight.set(-((right>Constants.joy_deadzone)?right:0)/speed_multiplier);
     } //done
     public boolean doAutoLinearDrive(){ //TODO: I really need to be tested
         pid_drive.newSetpoint(linear_setpoint);
@@ -48,9 +47,9 @@ public class Drive {
     //public  boolean doAutoRotationDrive(){//TODO: I'm going to be a bitch to make nice
     // }
     private void toggleSpeed(){
-        if(driver_joy.getRawButtonPressed(constants.joy_button_rightBumper))
+        if(driver_joy.getRawButtonPressed(Constants.joy_button_rightBumper))
             speed_multiplier = 2;
-        else if(driver_joy.getRawButtonPressed(constants.joy_button_leftBumper))
+        else if(driver_joy.getRawButtonPressed(Constants.joy_button_leftBumper))
             speed_multiplier = 1;
     } //done
 

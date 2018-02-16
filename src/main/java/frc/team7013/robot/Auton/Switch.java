@@ -6,8 +6,6 @@ import frc.team7013.robot.Intake;
 import frc.team7013.robot.Lift;
 
 public class Switch extends Auto {
-
-    private  Constants constants;
     private  Drive robot_drive;
     private  Lift lift;
     private  Intake intake;

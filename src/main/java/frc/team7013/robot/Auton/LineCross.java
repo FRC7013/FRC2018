@@ -4,8 +4,7 @@ import frc.team7013.robot.Constants;
 import frc.team7013.robot.Drive;
 
 public class LineCross extends Auto {
-
-    private Constants constants;
+    
     private Drive robot_drive;
     private int auto_index, drive_setpoint_index;
 
@@ -17,7 +16,7 @@ public class LineCross extends Auto {
 
     @Override
     public void doAuto() {
-        robot_drive.setLinearSetpoint(constants.line_cross_drive_setpoints[drive_setpoint_index]);
+        robot_drive.setLinearSetpoint(Constants.line_cross_drive_setpoints[drive_setpoint_index]);
         if (robot_drive.doAutoLinearDrive())
             auto_index++;
         }

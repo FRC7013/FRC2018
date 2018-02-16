@@ -7,7 +7,6 @@ import frc.team7013.robot.Auton.*;
 
 
 public class Robot extends IterativeRobot {
-    private Constants constants;
     private Drive robot_drive;
     private Joystick driver_joy, operator_joy;
     private Lift lift;
@@ -18,8 +17,8 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void robotInit() {
-        driver_joy = new Joystick(constants.driver_joy_port);
-        operator_joy = new Joystick(constants.operator_joy_port);
+        driver_joy = new Joystick(Constants.driver_joy_port);
+        operator_joy = new Joystick(Constants.operator_joy_port);
         robot_drive = new Drive(driver_joy);
         lift = new Lift(operator_joy);
         intake = new Intake(driver_joy);
