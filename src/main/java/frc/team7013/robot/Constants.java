@@ -34,12 +34,15 @@ public class Constants {
     public final static int[] encoder_left = {0,1};
     public final static int[] encoder_right = {2,3};
     public final static double distance_per_tick = (6 * Math.PI)/((50 / 24) * 20); //circumference / ticks per rotation
+    public final static int drive_gyro = 0;
+    public final static double proportionality = 0.00165*352/360;
 
     //Lift
     public final static int sparks_arm = 2;
-    public final static int talon_telescope = 3;
-    public final static int arm_pot = 0;
-    public final static int telescope_pot = 1;
+    public final static int sparks_arm2 = 3;
+    public final static int talon_telescope = 6;
+    public final static int arm_pot = 1;
+    public final static int telescope_pot = 2;
     public final static double arm_scaling_factor = (1800 / 5)/(4096/10);
     public final static double telecope_scaling_factor = 0;
     public final static double minimum_length = 27.25;

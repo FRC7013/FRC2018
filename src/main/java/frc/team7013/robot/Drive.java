@@ -1,8 +1,6 @@
 package frc.team7013.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.*;
 import frc.team7013.robot.Auton.Auto;
 import frc.team7013.robot.Util.PID;
 
@@ -14,8 +12,10 @@ public class Drive {
     private  Encoder encoder_left, encoder_right;
     private  double linear_setpoint;
     private  PID pid_drive;
+    public static AnalogGyro drive_gyro = new AnalogGyro(Constants.drive_gyro);
 
-   //constructors
+
+    //constructors
     Drive(Joystick driver_joy){
         this.driver_joy = driver_joy;
         sparksLeft = new Spark(Constants.sparks_left);
@@ -27,16 +27,21 @@ public class Drive {
         pid_drive.newSetpoint(0);
         encoder_right.setDistancePerPulse(Constants.distance_per_tick);
         encoder_left.setDistancePerPulse(Constants.distance_per_tick);
+        drive_gyro.initGyro();
+        drive_gyro.calibrate();
+        drive_gyro.reset();
+        drive_gyro.setSensitivity(Constants.proportionality);
+
     } //done
 
     //functionality
     public void doDrive(){
         toggleSpeed();
-        double left = driver_joy.getRawAxis(Constants.joy_left_Y);
-        double right = driver_joy.getRawAxis(Constants.joy_right_Y);
+        double right = driver_joy.getRawAxis(Constants.joy_left_Y);
+        double left = driver_joy.getRawAxis(Constants.joy_right_Y);
 
-        sparksLeft.set(((left>Constants.joy_deadzone)?left:0)/speed_multiplier);
-        sparksRight.set(-((right>Constants.joy_deadzone)?right:0)/speed_multiplier);
+        sparksLeft.set(((Math.abs(left)>Constants.joy_deadzone)?left:0)/speed_multiplier);
+        sparksRight.set(-((Math.abs(right)>Constants.joy_deadzone)?right:0)/speed_multiplier);
     } //done
     public boolean doAutoLinearDrive(){ //TODO: I really need to be tested
         pid_drive.newSetpoint(linear_setpoint);
@@ -47,9 +52,9 @@ public class Drive {
     //public  boolean doAutoRotationDrive(){//TODO: I'm going to be a bitch to make nice
     // }
     private void toggleSpeed(){
-        if(driver_joy.getRawButtonPressed(Constants.joy_button_rightBumper))
+        if(Math.abs(driver_joy.getRawAxis(Constants.joy_left_trigger))>.5)
             speed_multiplier = 2;
-        else if(driver_joy.getRawButtonPressed(Constants.joy_button_leftBumper))
+        else if(Math.abs(driver_joy.getRawAxis(Constants.joy_right_trigger))>.5)
             speed_multiplier = 1;
     } //done
 
@@ -60,4 +65,5 @@ public class Drive {
     public int getEncoderRight(){ return  encoder_right.get(); }
     public boolean getSpeedMultiplier(){ return speed_multiplier == 2; }
     public double getSpeed(){ return (encoder_left.getRate() + encoder_right.getRate())/2; }
+    public double getGyro(){ return drive_gyro.getAngle(); }
 }

@@ -8,7 +8,7 @@ import frc.team7013.robot.Util.PID;
 //TODO: test me, test all of me, please!!!!!
 public class Lift {
 
-    private  Spark sparks_arm;
+    private  Spark sparks_arm, sparks_arm2;
     private  PWMTalonSRX talon_telescope;
     private  Joystick operator_joy;
     private  AnalogInput arm_pot, telescope_pot;
@@ -22,6 +22,7 @@ public class Lift {
     Lift(Joystick operator_joy) {
         this.operator_joy = operator_joy;
         sparks_arm = new Spark(Constants.sparks_arm);
+        sparks_arm2 = new Spark(Constants.sparks_arm2);
         talon_telescope = new PWMTalonSRX(Constants.talon_telescope);
         arm_pot = new AnalogInput(Constants.arm_pot);
         telescope_pot = new AnalogInput(Constants.telescope_pot);
@@ -33,18 +34,19 @@ public class Lift {
 
     //functionality
     public  void doLift(){
-        if(!doManual()){//check if in manual first
-            if(!DriverStation.getInstance().isAutonomous()) { updateLift(); }
-            pid_arm.newSetpoint(arm_setpoint);
-            if(!pid_arm.doPID(arm_pot.getValue())&&(operator_joy.getRawButtonPressed(Constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(Constants.joy_button_rightStick)))
-                pid_arm.newSetpoint(arm_pot.getValue());
-            arm_speed = pid_arm.getOutput();
-            pid_telescope.newSetpoint(telescopeLenCalc(armRotationToAngles(telescopeLenCalc(arm_pot.getValue()))));
-            if(!pid_telescope.doPID((int) Math.round(telescope_pot.getValue()*Constants.telecope_scaling_factor))&&(operator_joy.getRawButtonPressed(Constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(Constants.joy_button_rightStick)))
-                pid_telescope.newSetpoint(telescope_pot.getValue());
-            telescope_speed = pid_telescope.getOutput();
-        }
         setVelocities();
+        doManual();
+        //if(!doManual()){//check if in manual first
+          //  if(!DriverStation.getInstance().isAutonomous()) { updateLift(); }
+//            pid_arm.newSetpoint(arm_setpoint);
+//            if(!pid_arm.doPID(arm_pot.getValue())&&(operator_joy.getRawButtonPressed(Constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(Constants.joy_button_rightStick)))
+//                pid_arm.newSetpoint(arm_pot.getValue());
+//            arm_speed = pid_arm.getOutput();
+//            pid_telescope.newSetpoint(telescopeLenCalc(armRotationToAngles(telescopeLenCalc(arm_pot.getValue()))));
+//            if(!pid_telescope.doPID((int) Math.round(telescope_pot.getValue()*Constants.telecope_scaling_factor))&&(operator_joy.getRawButtonPressed(Constants.joy_button_leftStick)&&operator_joy.getRawButtonPressed(Constants.joy_button_rightStick)))
+//                pid_telescope.newSetpoint(telescope_pot.getValue());
+//            telescope_speed = pid_telescope.getOutput();
+//        }
     } //done
     private  void updateLift(){
             if(!operator_joy.getRawButtonPressed(Constants.joy_button_Back)){ //front to position
@@ -86,17 +88,18 @@ public class Lift {
             }
     } //done
     private  boolean doManual(){
-        if(operator_joy.getRawButtonPressed(Constants.joy_button_Start)){ //manual engage
+        if(operator_joy.getRawButton(Constants.joy_button_Start)){ //manual engage
             manual_indicator = true;
-            if(operator_joy.getRawButtonPressed(Constants.joy_button_leftStick))
+            if(operator_joy.getRawButton(Constants.joy_button_leftBumper))
                 telescope_speed = .5;
-            else if(operator_joy.getRawButtonPressed(Constants.joy_button_rightBumper))
+            else if(operator_joy.getRawButton(Constants.joy_button_rightBumper))
                 telescope_speed = -.5;
             else
                 telescope_speed = 0;
-            if(operator_joy.getRawAxis(Constants.joy_right_trigger) > .25)
+
+            if(operator_joy.getRawButton(Constants.joy_button_Y))
                 arm_speed = .5;
-            else if(operator_joy.getRawAxis(Constants.joy_left_trigger) > .25)
+            else if(operator_joy.getRawButton(Constants.joy_button_X))
                 arm_speed = -.5;
             else
                 arm_speed = 0;
@@ -108,6 +111,7 @@ public class Lift {
     } //done
     private  void setVelocities(){
         sparks_arm.set(arm_speed);
+        sparks_arm.set(-arm_speed);
         talon_telescope.set(telescope_speed);
     } //done
     private  int armRotationToAngles(int current){
