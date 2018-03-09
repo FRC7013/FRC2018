@@ -35,13 +35,13 @@ public class Elevator extends Subsystem {
     }
 
     private ControlType mControlType;
+    private WantedPosition mWantedPosition;
 
     private final TPwmSpeedController elevatorMotor;
     private final TPwmEncoder elevatorEncoder;
     private final TLimitSwitch elevatorLimitSwitch;
 
     private double elevatorSetpoint;
-    private WantedPosition mWantedPosition;
     private double integral = 0;
     private double previousError;
 
@@ -52,22 +52,22 @@ public class Elevator extends Subsystem {
     }
 
     @Override
-    public void outputToSmartDashboard() {
+    public synchronized void outputToSmartDashboard() {
     }
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
         setControlType(ControlType.STOP);
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
         //resetElevatorEncoder(); //Not sure if should reset encoder here
     }
 
     @Override
     public void registerEnabledLoops(Looper enabledLooper) {
-        Loop loop = new Loop() {
+        enabledLooper.register(new Loop() {
             @Override
             public void onStart(double timestamp) {
                 synchronized (Elevator.this) {
@@ -97,7 +97,7 @@ public class Elevator extends Subsystem {
                             break;
                             default:
                                 System.out.println("ERROR: Unexpected elevator position: " + mWantedPosition);
-                                elevatorSetpoint = ElevatorArmConst.ELEVATOR_STOW_POSITION;
+                                elevatorSetpoint = ElevatorArmConst.ELEVATOR_INTAKE_POSITION;
                                 break;
                     }
 
@@ -130,8 +130,7 @@ public class Elevator extends Subsystem {
                 mControlType = ControlType.STOP;
                 stop();
             }
-        };
-        enabledLooper.register(loop);
+        });
     }
 
     //handles
@@ -176,7 +175,7 @@ public class Elevator extends Subsystem {
         return getElevatorEncoder() / ElevatorArmConst.ELEVATOR_ENCODER_MAX;
     }
 
-    public boolean getIsElevatorHomed() {
+    public synchronized boolean getIsElevatorHomed() {
         return getElevatorLimitSwitch();
     }
 

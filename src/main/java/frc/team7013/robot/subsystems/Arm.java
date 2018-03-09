@@ -20,10 +20,27 @@ public class Arm extends Subsystem {
         return mInstance;
     }
 
+    public enum ControlType {
+        PID_CONTROL,
+        STOP,
+        STAY
+    }
+
+    public enum WantedPosition {
+        INTAKE,
+        STOW,
+        SWITCH,
+        SCALE
+    }
+
+    private ControlType mControlType;
+    private WantedPosition mWantedPosition;
+
     private final TPwmSpeedController armMotor1,armMotor2;
     private final AnalogPotentiometer armPotentiometer;
 
     private double armSetpoint;
+    private double previousSetpoint;
     private double integral = 0;
     private double previousError;
 
@@ -34,51 +51,125 @@ public class Arm extends Subsystem {
     }
 
     @Override
-    public void outputToSmartDashboard() {
+    public synchronized void outputToSmartDashboard() {
     }
 
     @Override
-    public void stop() {
-        setArmMotors(0.0);
+    public synchronized void stop() {
+        setControlType(ControlType.STOP);
     }
 
     @Override
-    public void zeroSensors() {
+    public synchronized void zeroSensors() {
         //Don't do anything
     }
 
     @Override
     public void registerEnabledLoops(Looper enabledLooper) {
-        Loop loop = new Loop() {
+        enabledLooper.register(new Loop() {
             @Override
             public void onStart(double timestamp) {
                 synchronized (Arm.this) {
                     armSetpoint = getArmPosition();
                     previousError = getArmPosition() - armSetpoint;
-                    stop();
+                    mControlType = ControlType.STOP;
+                    mWantedPosition = WantedPosition.STOW;
                 }
             }
 
             @Override
             public void onLoop(double timestamp) {
                 synchronized (Arm.this) {
-                    setArmMotors(getArmPIDOutput());
+                    switch(mWantedPosition) {
+                        case INTAKE:
+                            armSetpoint = ElevatorArmConst.ARM_INTAKE_POSITION;
+                            break;
+                        case STOW:
+                            armSetpoint = ElevatorArmConst.ARM_STOW_POSITION;
+                            break;
+                        case SWITCH:
+                            armSetpoint = ElevatorArmConst.ARM_SWITCH_POSITION;
+                            break;
+                        case SCALE:
+                            armSetpoint = ElevatorArmConst.ARM_SCALE_POSITION;
+                            break;
+                            default:
+                                System.out.println("ERROR: Unexpected arm position: " + mWantedPosition);
+                                armSetpoint = ElevatorArmConst.ARM_INTAKE_POSITION;
+                                break;
+                    }
+
+                    ControlType newState = mControlType;
+                    switch(mControlType) {
+                        case PID_CONTROL:
+                            handlePIDControl();
+                            break;
+                        case STAY:
+                            armSetpoint = getClosestPosition();
+                            handlePIDControl();
+                            break;
+                        case STOP:
+                            handleStop();
+                            break;
+                        default:
+                            System.out.println("ERROR: Unexpected arm control type: " + mControlType);
+                            handleStop();
+                            break;
+                    }
+
+
                 }
             }
 
             @Override
             public void onStop(double timestamp) {
+                mControlType = ControlType.STOP;
                 stop();
             }
-        };
-        enabledLooper.register(loop);
+        });
     }
 
-    public void setSetpoint(double value) {
-        armSetpoint = value;
+    private double getClosestPosition() {
+        double position = getArmPosition();
+
+        double intakeDistance = Math.abs(position - ElevatorArmConst.ARM_INTAKE_POSITION);
+        double stowDistance = Math.abs(position - ElevatorArmConst.ARM_STOW_POSITION);
+        double switchDistance = Math.abs(position - ElevatorArmConst.ARM_SWITCH_POSITION);
+        double scaleDistance = Math.abs(position - ElevatorArmConst.ARM_SCALE_POSITION);
+
+        if((intakeDistance < stowDistance) && (intakeDistance < switchDistance) && (intakeDistance < scaleDistance)) {
+            return ElevatorArmConst.ARM_INTAKE_POSITION;
+        }
+        if((stowDistance < intakeDistance) && (stowDistance < switchDistance) && (stowDistance < scaleDistance)) {
+            return ElevatorArmConst.ARM_STOW_POSITION;
+        }
+        if((switchDistance < intakeDistance) && (switchDistance < stowDistance) && (switchDistance < scaleDistance)) {
+            return ElevatorArmConst.ARM_SWITCH_POSITION;
+        }
+        if((scaleDistance < intakeDistance) && (scaleDistance < stowDistance) && (scaleDistance < switchDistance)) {
+            return ElevatorArmConst.ARM_SCALE_POSITION;
+        }
+        return ElevatorArmConst.ARM_INTAKE_POSITION;
     }
 
-    public boolean setpointReached() {
+    //Handles
+    private void handlePIDControl() {
+        setArmMotors(getArmPIDOutput());
+    }
+
+    private void handleStop() {
+        setArmMotors(0.0);
+    }
+
+    public synchronized void setControlType(ControlType type) {
+        mControlType = type;
+    }
+
+    public synchronized void setPosition(WantedPosition position) {
+        mWantedPosition = position;
+    }
+
+    public synchronized boolean setpointReached() {
         return (Math.abs(armSetpoint - getArmPosition()) < 0.1);
     }
 

@@ -1,19 +1,9 @@
 package frc.team7013.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.team7013.robot.TPackage.loop.Loop;
 import frc.team7013.robot.TPackage.loop.Looper;
-import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
-import frc.team7013.robot.TPackage.sensors.limitSwitch.TLimitSwitch;
-import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
-import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedControllerType;
-import frc.team7013.robot.robot.ElevatorArmConst;
-import frc.team7013.robot.robot.RobotConst;
-import frc.team7013.robot.robot.RobotMap;
 
 public class Lift extends Subsystem {
-
-    private double armPosition;
 
     private static Lift mInstance;
 
@@ -34,7 +24,7 @@ public class Lift extends Subsystem {
         SCALE
     }
 
-    private WantedState mWantedState;
+    private WantedState mWantedState = WantedState.SWITCH;
 
     private Loop mLoop = new Loop() {
 
@@ -51,38 +41,38 @@ public class Lift extends Subsystem {
                 switch(mWantedState) {
                     case INTAKE:
                         mElevator.setPosition(Elevator.WantedPosition.INTAKE);
-                        armPosition = ElevatorArmConst.ARM_INTAKE_POSITION;
+                        mArm.setPosition(Arm.WantedPosition.INTAKE);
                         break;
                     case STOW:
                         mElevator.setPosition(Elevator.WantedPosition.STOW);
-                        armPosition = ElevatorArmConst.ARM_STOW_POSITION;
+                        mArm.setPosition(Arm.WantedPosition.STOW);
                         break;
                     case SWITCH:
                         mElevator.setPosition(Elevator.WantedPosition.SWITCH);
-                        armPosition = ElevatorArmConst.ARM_SWITCH_POSITION;
+                        mArm.setPosition(Arm.WantedPosition.SWITCH);
                         break;
                     case SCALE:
                         mElevator.setPosition(Elevator.WantedPosition.SCALE);
-                        armPosition = ElevatorArmConst.ARM_SCALE_POSITION;
+                        mArm.setPosition(Arm.WantedPosition.SCALE);
                         break;
                         default:
-                            System.out.println("ERROR: Unexpected lift wanted state: " + mWantedState);
+                            System.out.println("ERROR: Unexpected LIFT wanted state: " + mWantedState);
                             mElevator.setPosition(Elevator.WantedPosition.SWITCH);
-                            armPosition = ElevatorArmConst.ARM_SWITCH_POSITION;
+                            mArm.setPosition(Arm.WantedPosition.SWITCH);
                 }
 
                 if(!mArm.setpointReached()) { //Arm is far from setpoint: wait to home elevator before moving arm
                     if(!mElevator.getIsElevatorHomed()) { //Home elevator
-                        armStay();
+                        mArm.setControlType(Arm.ControlType.STAY);
                         mElevator.setControlType(Elevator.ControlType.HOMING);
                     }
                     else { //Elevator homed, need to rotate arm to desired angle before we extend elevator
                         mElevator.setControlType(Elevator.ControlType.HOMING);
-                        setArmSetpoint(wherewewanttobe);
+                        mArm.setControlType(Arm.ControlType.PID_CONTROL); //Position already set
                     }
                 }
                 else { //Arm is close to setpoint: maintain position and raise elevator
-                    setArmSetpoint(wherewewanttobe); //Do this as a state  machine in Arm class with STAY and MOVE States
+                    mArm.setControlType(Arm.ControlType.PID_CONTROL); //Position already set
                     mElevator.setControlType(Elevator.ControlType.PID_CONTROL);
                 }
 
@@ -96,6 +86,10 @@ public class Lift extends Subsystem {
 
     };
 
+    public synchronized void setWantedState(WantedState wantedState) {
+        mWantedState = wantedState;
+    }
+
     @Override
     public void outputToSmartDashboard() {
     }
@@ -106,15 +100,11 @@ public class Lift extends Subsystem {
 
     @Override
     public void zeroSensors() {
-        //not sure if should zero elevatorEncoder here
     }
 
-    public synchronized void setWantedState(WantedState wanted) {
-        mWantedState = wanted;
-    }
-
-    public synchronized void reset() {
-        mWantedState = WantedState.STOW;
+    @Override
+    public void registerEnabledLoops(Looper enabledLooper) {
+        enabledLooper.register(mLoop);
     }
 
 

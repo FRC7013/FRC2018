@@ -1,27 +1,26 @@
 package frc.team7013.robot.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.team7013.robot.TPackage.loop.CrashTracker;
 import frc.team7013.robot.TPackage.loop.Looper;
-import frc.team7013.robot.commands.AutonomousCommand;
 import frc.team7013.robot.oi.OI;
 import frc.team7013.robot.oi.GameData;
-import frc.team7013.robot.subsystems.Intake;
-import frc.team7013.robot.subsystems.SubsystemManager;
+import frc.team7013.robot.subsystems.*;
 import frc.team7013.robot.subsystems.Intake.WantedState;
 
 import java.util.Arrays;
 
 public class Robot extends IterativeRobot {
 
-    public static OI oi;
+    private static OI oi;
 
     //Get subsystem instances
     private Intake mIntake = Intake.getInstance();
+    private Lift mLift = Lift.getInstance();
 
-    private final SubsystemManager mSubsystemManager = new SubsystemManager(Arrays.asList(Intake.getInstance()));
+    //Create subsystem manager
+    private final SubsystemManager mSubsystemManager = new SubsystemManager(
+            Arrays.asList(Intake.getInstance(),Lift.getInstance(), Elevator.getInstance(), Arm.getInstance())
+    );
 
     private Looper mEnabledLooper = new Looper();
 
@@ -29,7 +28,7 @@ public class Robot extends IterativeRobot {
 
     }
 
-    public void zeroAllSensors() {
+    public void zeroAllSensors(){
         mSubsystemManager.zeroSensors();
     }
 
@@ -39,15 +38,82 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-        try() {
-            oi = new OI();
-
-            mSubsystemManager.registerEnabledLoops(mEnabledLooper);
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
+        oi = new OI();
+        mSubsystemManager.registerEnabledLoops(mEnabledLooper);
         zeroAllSensors();
+    }
+
+    @Override
+    public void autonomousInit() {
+
+        // Initialize the game data
+        GameData.init();
+
+        zeroAllSensors();
+        mLift.setWantedState(Lift.WantedState.SWITCH);
+        mIntake.reset();
+        mIntake.setWantedState(WantedState.HOLD);
+
+        mEnabledLooper.start();
+
+    }
+
+    @Override
+    public void autonomousPeriodic() {
+
+        // Update the OI before running the commands
+        oi.updatePeriodic();
+
+        allPeriodic();
+    }
+
+    @Override
+    public void teleopInit() {
+        mEnabledLooper.start();
+        zeroAllSensors();
+    }
+
+    @Override
+    public void teleopPeriodic() {
+
+        // Update the OI before running the commands
+        oi.updatePeriodic();
+
+        //Drive base
+        double leftThrottle = oi.getLeftSpeed();
+        double rightThrottle = oi.getRightSpeed();
+
+        boolean intakeCube = oi.getIntake();
+        boolean scoreCube = oi.getExtake();
+
+        if(intakeCube) {
+            mIntake.setWantedState(WantedState.ACQUIRE);
+        } else if(scoreCube) {
+            mIntake.setWantedState(WantedState.SCORE);
+        } else {
+            mIntake.setWantedState(WantedState.HOLD);
+        }
+
+        OI.LIFT_POSITION liftPosition = oi.getLiftPosition();
+        switch (liftPosition) {
+            case INTAKE:
+                mLift.setWantedState(Lift.WantedState.INTAKE);
+                break;
+            case STOW:
+                mLift.setWantedState(Lift.WantedState.STOW);
+                break;
+            case SWITCH:
+                mLift.setWantedState(Lift.WantedState.SWITCH);
+                break;
+            case SCALE:
+                mLift.setWantedState(Lift.WantedState.SCALE);
+                break;
+                default:
+                    mLift.setWantedState(Lift.WantedState.INTAKE);
+                    break;
+        }
+
+        allPeriodic();
     }
 
     /**
@@ -57,104 +123,19 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit() {
+        mEnabledLooper.stop();
+        mSubsystemManager.stop();
 
     }
 
     @Override
     public void disabledPeriodic() {
-        Scheduler.getInstance().run();
-        updatePeriodic();
-    }
-
-    @Override
-    public void autonomousInit() {
-
-        // Initialize the game data
-        GameData.init();
-
-        // Turn on the drive pids
-        Robot.oi.setSpeedPidToggle(true);
-        chassisSubsystem.enableSpeedPids();
-
-        // Reset the gyro and the encoders
-        Robot.chassisSubsystem.setGyroAngle(0);
-        Robot.chassisSubsystem.resetEncoders();
-
-        // Initialize the robot command after initializing the game data
-        // because the game data will be used in the auto command.
-        autoCommand = new AutonomousCommand();
-        autoCommand.start();
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-
-        // Update the OI before running the commands
-        oi.updatePeriodic();
-
-        Scheduler.getInstance().run();
-
-        // Update all subsystems after running commands
-        updatePeriodic();
-    }
-
-    @Override
-    public void teleopInit() {
-        try {
-            mEnabledLooper.start();
-            zeroAllSensors();
-        } catch(Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
-
-        // Turn off the drive PIDs
-        // Save the battery in teleop by using the
-        // SpeedController built in braking.
-        Robot.oi.setSpeedPidToggle(false);
-        chassisSubsystem.disableSpeedPids();
-
-    }
-
-    @Override
-    public void teleopPeriodic() {
-
-        // Update the OI before running the commands
-        oi.updatePeriodic();
-
-        try {
-            double timestamp = Timer.getFPGATimestamp();
-
-            //Drive base
-            double leftThrottle = oi.getLeftSpeed();
-            double rightThrottle = oi.getRightSpeed();
-
-            boolean intakeCube = oi.getIntake();
-            boolean scoreCube = oi.getExtake();
-
-            if(intakeCube) {
-                mIntake.setWantedState(WantedState.ACQUIRE;
-            } else if(scoreCube) {
-                mIntake.setWantedState(WantedState.SCORE);
-            } else {
-                mIntake.setWantedState(WantedState.HOLD);
-            }
-
-            allPeriodic();
-        } catch (Throwable t) {
-            CrashTracker.logThrowableCrash(t);
-            throw t;
-        }
+        zeroAllSensors();
+        allPeriodic();
     }
 
     @Override
     public void testPeriodic() {
-    }
-
-    private void updatePeriodic() {
-        chassisSubsystem.updatePeriodic();
-        elevatorArmSubsystem.updatePeriodic();
-        intakeSubsystem.updatePeriodic();
     }
 
     public void allPeriodic() {
