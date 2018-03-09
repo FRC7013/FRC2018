@@ -15,6 +15,7 @@ public class RobotConst {
     //*********************************************************
     // Drive Constants
     //*********************************************************
+    public static final double DRIVE_WHEEL_DIAMETER = 6;
     public static final boolean RIGHT_MOTOR_ORIENTATION = NOT_INVERTED;
     public static final boolean LEFT_MOTOR_ORIENTATION = INVERTED;
 

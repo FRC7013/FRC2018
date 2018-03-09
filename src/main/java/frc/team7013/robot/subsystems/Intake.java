@@ -70,7 +70,7 @@ public class Intake extends Subsystem{
             @Override
             public void onLoop(double timestamp) {
                 synchronized (Intake.this) {
-                    SystemState newState = mSystemState;
+                    SystemState newState;
                     switch (mSystemState) {
                         case INTAKE:
                             newState = handleIntaking();
