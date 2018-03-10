@@ -49,6 +49,17 @@ public class Drive extends Subsystem {
         @Override
         public void onLoop(double timestamp) {
             synchronized (Drive.this) {
+                switch(mDriveControlState) {
+                    case VELOCITY_SETPOINT:
+                        updateVelocitySetpoint(leftPidSpeed,rightPidSpeed);
+                        break;
+                    case OPEN_LOOP:
+
+                        break;
+                        default:
+                            System.out.println("ERROR: Unexpected drive control state: " + mDriveControlState);
+                            break;
+                }
                 System.out.println("Drive alive!");
             }
         }
@@ -131,12 +142,19 @@ public class Drive extends Subsystem {
         mGyro.reset();
     }
 
-    public synchronized void setVelocitySetpoint(double leftSpeed, double rightSpeed) { //Needs to be called at 200Hz, NOT IN THIS CLASS
+    public synchronized double getAngle() {
+        return mGyro.getAngle();
+    }
+
+    double leftPidSpeed, rightPidSpeed;
+    public synchronized void setVelocitySetpoint(double leftSpeed, double rightSpeed) { //Needs to be called at 200Hz, NOT IN THIS CLASS???
         if(mDriveControlState != DriveControlState.VELOCITY_SETPOINT) {
             speedPidsActive = true;
             enableSpeedPids();
             mDriveControlState = DriveControlState.VELOCITY_SETPOINT;
         }
+        leftPidSpeed = leftSpeed;
+        rightPidSpeed = rightSpeed;
         updateVelocitySetpoint(leftSpeed, rightSpeed);
     }
 
