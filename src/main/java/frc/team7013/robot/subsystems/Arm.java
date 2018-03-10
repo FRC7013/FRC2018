@@ -1,6 +1,7 @@
 package frc.team7013.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.TPackage.loop.Loop;
 import frc.team7013.robot.TPackage.loop.Looper;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
@@ -52,6 +53,7 @@ public class Arm extends Subsystem {
 
     @Override
     public synchronized void outputToSmartDashboard() {
+        SmartDashboard.putNumber("Arm position",armPotentiometer.get());
     }
 
     @Override
@@ -80,7 +82,6 @@ public class Arm extends Subsystem {
             @Override
             public void onLoop(double timestamp) {
                 synchronized (Arm.this) {
-                    System.out.println("Arm alive!");
                     switch(mWantedPosition) {
                         case INTAKE:
                             armSetpoint = ElevatorArmConst.ARM_INTAKE_POSITION;

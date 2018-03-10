@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 
     private Looper mEnabledLooper = new Looper();
 
-    private Robot() {
+    public Robot() {
 
     }
 

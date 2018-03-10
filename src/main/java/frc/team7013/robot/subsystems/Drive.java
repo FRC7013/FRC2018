@@ -1,5 +1,6 @@
 package frc.team7013.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.TPackage.loop.Loop;
 import frc.team7013.robot.TPackage.loop.Looper;
 import frc.team7013.robot.TPackage.pid.TSpeedPID;
@@ -60,7 +61,6 @@ public class Drive extends Subsystem {
                             System.out.println("ERROR: Unexpected drive control state: " + mDriveControlState);
                             break;
                 }
-                System.out.println("Drive alive!");
             }
         }
 
@@ -129,6 +129,8 @@ public class Drive extends Subsystem {
 
     @Override
     public void outputToSmartDashboard() {
+        SmartDashboard.putNumber("Left encoder position",getLeftDistanceInches());
+        SmartDashboard.putNumber("Right encoder position", getRightDistanceInches());
     }
 
     public synchronized void resetEncoders() {

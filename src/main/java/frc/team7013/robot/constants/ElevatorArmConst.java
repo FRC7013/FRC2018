@@ -15,7 +15,7 @@ public class ElevatorArmConst {
     public static final double ELEVATOR_STOW_POSITION = 0.1;
     public static final double ELEVATOR_SCALE_POSITION = 0.92;
 
-    public static final double ELEVATOR_ENCODER_MAX = 2954;
+    public static final double ELEVATOR_ENCODER_MAX = 394;
 
     public static final double ELEVATOR_KP = 5;
     public static final double ELEVATOR_KD = 0;

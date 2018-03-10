@@ -38,7 +38,6 @@ public class Lift extends Subsystem {
         @Override
         public void onLoop(double timestamp) {
             synchronized (Lift.this) {
-                System.out.println("Lift alive!");
                 switch(mWantedState) {
                     case INTAKE:
                         mElevator.setPosition(Elevator.WantedPosition.INTAKE);
@@ -93,6 +92,7 @@ public class Lift extends Subsystem {
 
     @Override
     public void outputToSmartDashboard() {
+
     }
 
     @Override

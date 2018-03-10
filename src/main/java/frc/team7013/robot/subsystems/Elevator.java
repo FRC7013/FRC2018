@@ -1,5 +1,6 @@
 package frc.team7013.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.TPackage.loop.Loop;
 import frc.team7013.robot.TPackage.loop.Looper;
 import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
@@ -53,6 +54,7 @@ public class Elevator extends Subsystem {
 
     @Override
     public synchronized void outputToSmartDashboard() {
+        SmartDashboard.putNumber("Elevator position",getElevatorPosition());
     }
 
     @Override
@@ -82,7 +84,6 @@ public class Elevator extends Subsystem {
             @Override
             public void onLoop(double timestamp) {
                 synchronized (Elevator.this) {
-                    System.out.println("Elevator alive!");
                     switch(mWantedPosition) {
                         case INTAKE:
                             elevatorSetpoint = ElevatorArmConst.ELEVATOR_INTAKE_POSITION;
@@ -140,6 +141,15 @@ public class Elevator extends Subsystem {
     }
 
     private void handleHoming() {
+        //For testing
+        if(!(getElevatorPosition() < 0.1)) {
+            setElevatorMotor(-0.3);
+        }
+        else {
+            setElevatorMotor(0.0);
+        }
+
+        /*
         if(!getElevatorLimitSwitch()) { //Not yet homed
             setElevatorMotor(-0.3);
             resetElevatorEncoder(); //NEED TO RESET HERE, once the limit switch is triggered this code WON'T RUN!
@@ -147,7 +157,7 @@ public class Elevator extends Subsystem {
         else { //This code here just in case it does get to this state, but READ ABOVE COMMENT
             setElevatorMotor(0.0);
             resetElevatorEncoder();
-        }
+        }*/
     }
 
     private void handlePIDControl() {
@@ -177,7 +187,8 @@ public class Elevator extends Subsystem {
     }
 
     public synchronized boolean getIsElevatorHomed() {
-        return getElevatorLimitSwitch();
+        return getElevatorPosition() < 0.1;
+        //return getElevatorLimitSwitch();
     }
 
 
