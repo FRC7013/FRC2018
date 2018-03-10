@@ -2,6 +2,8 @@ package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import frc.team7013.robot.TPackage.loop.Looper;
+import frc.team7013.robot.auto.AutoModeExecuter;
+import frc.team7013.robot.auto.modes.LeftCubeMode;
 import frc.team7013.robot.constants.RobotConst;
 import frc.team7013.robot.oi.OI;
 import frc.team7013.robot.oi.GameData;
@@ -12,14 +14,13 @@ import java.util.Arrays;
 
 public class Robot extends IterativeRobot {
 
-    CHECK THAT DRIVE INITIALIZATION IS CORRECT;
-
     private static OI oi;
 
     //Get subsystem instances
     private Intake mIntake = Intake.getInstance();
     private Lift mLift = Lift.getInstance();
     private Drive mDrive = Drive.getInstance();
+    private AutoModeExecuter mAutoModeExecuter = null;
 
     //Create subsystem manager
     private final SubsystemManager mSubsystemManager = new SubsystemManager(
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
 
     public void zeroAllSensors(){
         mSubsystemManager.zeroSensors();
+        mDrive.zeroSensors();
     }
 
     /**
@@ -53,12 +55,22 @@ public class Robot extends IterativeRobot {
         // Initialize the game data
         GameData.init();
 
+        if(mAutoModeExecuter != null) {
+            mAutoModeExecuter.stop();
+        }
+
         zeroAllSensors();
         mLift.setWantedState(Lift.WantedState.SWITCH);
         mIntake.reset();
         mIntake.setWantedState(WantedState.HOLD);
 
+        mAutoModeExecuter = null;
+
         mEnabledLooper.start();
+
+        mAutoModeExecuter = new AutoModeExecuter();
+        mAutoModeExecuter.setAutoMode(new LeftCubeMode());
+        mAutoModeExecuter.start();
 
     }
 
@@ -74,6 +86,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         mEnabledLooper.start();
+        mDrive.setOpenLoop(0,0);
         zeroAllSensors();
     }
 
@@ -134,8 +147,16 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit() {
+
+        if(mAutoModeExecuter != null) {
+            mAutoModeExecuter.stop();
+        }
+        mAutoModeExecuter = null;
+
         mEnabledLooper.stop();
         mSubsystemManager.stop();
+        mDrive.setOpenLoop(0,0);
+
 
     }
 
