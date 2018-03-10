@@ -6,9 +6,9 @@ import frc.team7013.robot.TPackage.pid.TSpeedPID;
 import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
 import frc.team7013.robot.TPackage.sensors.gyro.TAnalogGyro;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
-import frc.team7013.robot.robot.RobotMap;
+import frc.team7013.robot.constants.RobotMap;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedControllerType;
-import frc.team7013.robot.robot.RobotConst;
+import frc.team7013.robot.constants.RobotConst;
 
 public class Drive extends Subsystem {
 
@@ -49,7 +49,7 @@ public class Drive extends Subsystem {
         @Override
         public void onLoop(double timestamp) {
             synchronized (Drive.this) {
-
+                System.out.println("Drive alive!");
             }
         }
 
@@ -118,7 +118,6 @@ public class Drive extends Subsystem {
 
     @Override
     public void outputToSmartDashboard() {
-
     }
 
     public synchronized void resetEncoders() {

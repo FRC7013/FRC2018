@@ -6,9 +6,9 @@ import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
 import frc.team7013.robot.TPackage.sensors.limitSwitch.TLimitSwitch;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedControllerType;
-import frc.team7013.robot.robot.ElevatorArmConst;
-import frc.team7013.robot.robot.RobotConst;
-import frc.team7013.robot.robot.RobotMap;
+import frc.team7013.robot.constants.ElevatorArmConst;
+import frc.team7013.robot.constants.RobotConst;
+import frc.team7013.robot.constants.RobotMap;
 
 public class Elevator extends Subsystem {
 
@@ -82,6 +82,7 @@ public class Elevator extends Subsystem {
             @Override
             public void onLoop(double timestamp) {
                 synchronized (Elevator.this) {
+                    System.out.println("Elevator alive!");
                     switch(mWantedPosition) {
                         case INTAKE:
                             elevatorSetpoint = ElevatorArmConst.ELEVATOR_INTAKE_POSITION;

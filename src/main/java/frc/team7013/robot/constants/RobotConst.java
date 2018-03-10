@@ -1,4 +1,4 @@
-package frc.team7013.robot.robot;
+package frc.team7013.robot.constants;
 
 public class RobotConst {
 
@@ -15,7 +15,7 @@ public class RobotConst {
     //*********************************************************
     // Drive Constants
     //*********************************************************
-    public static final double DRIVE_WHEEL_DIAMETER = 6;
+    public static final double DRIVE_WHEEL_DIAMETER = 6;  //Inches, may need to vary this number -> use encoder counts per inch instead?
     public static final boolean RIGHT_MOTOR_ORIENTATION = NOT_INVERTED;
     public static final boolean LEFT_MOTOR_ORIENTATION = INVERTED;
 
@@ -48,17 +48,10 @@ public class RobotConst {
     public static final boolean ELEVATOR_ENCODER_INVERSION = INVERTED;
 
     //********************************************************
-    // Elevator Constants
+    // Intake Constants
     //********************************************************
     public static final boolean LEFT_INTAKE_MOTOR_INVERSION = INVERTED;
     public static final boolean RIGHT_INTAKE_MOTOR_INVERSION = INVERTED;
-
-    /*
-    public static final double ELEVATOR_ENCODER_COUNTS_PER_INCH;
-    public static final double ARM_POTENTIOMETER_VOLTS_PER_DEGREE;*/
-
-    public static enum Direction { FORWARD, BACKWARD };
-
 
 
 }

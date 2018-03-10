@@ -1,4 +1,4 @@
-package frc.team7013.robot.robot;
+package frc.team7013.robot.constants;
 
 public class RobotMap {
 

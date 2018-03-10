@@ -4,8 +4,8 @@ import frc.team7013.robot.TPackage.loop.Loop;
 import frc.team7013.robot.TPackage.loop.Looper;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedControllerType;
-import frc.team7013.robot.robot.RobotConst;
-import frc.team7013.robot.robot.RobotMap;
+import frc.team7013.robot.constants.RobotConst;
+import frc.team7013.robot.constants.RobotMap;
 
 public class Intake extends Subsystem{
 
@@ -70,6 +70,7 @@ public class Intake extends Subsystem{
             @Override
             public void onLoop(double timestamp) {
                 synchronized (Intake.this) {
+                    System.out.println("Intake alive!");
                     SystemState newState;
                     switch (mSystemState) {
                         case INTAKE:

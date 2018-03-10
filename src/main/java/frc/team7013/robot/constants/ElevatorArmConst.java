@@ -1,4 +1,4 @@
-package frc.team7013.robot.robot;
+package frc.team7013.robot.constants;
 
 import frc.team7013.robot.TPackage.sensors.limitSwitch.TLimitSwitch;
 
