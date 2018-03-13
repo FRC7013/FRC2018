@@ -10,8 +10,9 @@ public class LiftConst {
     }
 
     //Arm Max/Min Values
-    public static final double ARM_POT_MIN = 0.15;
-    public static final double ARM_POT_MAX = 0.55;
+    public static final double ARM_POT_MIN = 0.15; //To reset zero: keep elevator all the way in, contact to frame and look at value
+                                                   //on dashboard
+    public static final double ARM_POT_MAX = ARM_POT_MIN + 0.40; //Should be + 0.40
 
     //Arm PID Values
     public static final double ARM_PID_KP = 25;
@@ -27,14 +28,14 @@ public class LiftConst {
     //Arm setpoints
     public static final double ARM_INTAKE_SETPOINT = -0.015;
     public static final double ARM_SWITCH_SETPOINT = 0.15;
-    public static final double ARM_SCALE_SETPOINT = 0.50;
-    public static final double ARM_STOW_SETPOINT = 0.10;
+    public static final double ARM_SCALE_SETPOINT = 0.45;
+    public static final double ARM_STOW_SETPOINT = 0.05;
 
     //Elevator setpoints
     public static final double ELEVATOR_INTAKE_SETPOINT = 0.30;
     public static final double ELEVATOR_SWITCH_SETPOINT = 0.10;
     public static final double ELEVATOR_SCALE_SETPOINT = 0.90;
-    public static final double ELEVATOR_STOW_SETPOINT = 0.10;
+    public static final double ELEVATOR_STOW_SETPOINT = 0.05;
 
 
     public static final boolean ARM_MOTOR_1_INVERSION = true;

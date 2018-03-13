@@ -49,7 +49,7 @@ public class DriveDirectionCommand extends TSafeCommand {
             leftSpeed = rightSpeed * (1.0 + steering);
         }
 
-        Robot.chassisSubsystem.setSpeed(leftSpeed, rightSpeed);
+        Robot.chassisSubsystem.setSpeed(-leftSpeed, -rightSpeed);
 
     }
 

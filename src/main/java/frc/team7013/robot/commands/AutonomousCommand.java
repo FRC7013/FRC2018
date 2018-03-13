@@ -13,7 +13,7 @@ public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
         char closeSwitch = GameData.getCloseSwitch();
-        /*if(closeSwitch == LEFT) {
+        if(closeSwitch == LEFT) {
             addSequential(new ArcCommand(80, 0, 290, 0.7));
             addSequential(new ArcCommand(60, 290, 350, 0.7));
             addSequential(new ShootCubeCommand());
@@ -21,10 +21,7 @@ public class AutonomousCommand extends CommandGroup {
         if(closeSwitch == RIGHT) {
             addSequential(new ArcCommand(60, 0, 50, 0.7));
             addSequential(new ArcCommand(60, 50, 10, 0.7));
-            //addSequential(new ShootCubeCommand());
-        }*/
-        addSequential(new DriveDistanceCommand(24,0,0.5,5,false));
-        addSequential(new RotateToAngleCommand(45,0.5));
-        addSequential(new DriveDistanceCommand(24,45,0.5,5,false));
+            addSequential(new ShootCubeCommand());
+        }
     }
 }
