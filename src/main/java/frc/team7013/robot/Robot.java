@@ -1,12 +1,17 @@
 package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.team7013.robot.oi.GameData;
+import frc.team7013.robot.oi.OI;
+import frc.team7013.robot.subsystems.ArmSubsystem;
+import frc.team7013.robot.subsystems.ChassisSubsystem;
 
 public class Robot extends IterativeRobot {
 
-    public Robot() {
-
-    }
+    public static final ChassisSubsystem chassisSubsystem = new ChassisSubsystem();
+    public static final ArmSubsystem armSubsystem = new ArmSubsystem();
+    public static OI oi;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -14,24 +19,10 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
-    }
+        oi = new OI();
 
-    @Override
-    public void autonomousInit() {
-
-    }
-
-    @Override
-    public void autonomousPeriodic() {
-    }
-
-    @Override
-    public void teleopInit() {
-    }
-
-    @Override
-    public void teleopPeriodic() {
-
+        armSubsystem.init();
+        chassisSubsystem.init();
     }
 
     /**
@@ -46,11 +37,49 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledPeriodic() {
+        Scheduler.getInstance().run();
+        updatePeriodic();
+    }
+
+    @Override
+    public void autonomousInit() {
+        GameData.init();
+
+        chassisSubsystem.enableSpeedPids();
+
+        Robot.chassisSubsystem.setGyroAngle(0);
+        Robot.chassisSubsystem.resetEncoders();
+
+        Robot.armSubsystem.resetElevatorEncoder();
 
     }
 
     @Override
+    public void autonomousPeriodic() {
+        oi.updatePeriodic();
+        Scheduler.getInstance().run();
+        updatePeriodic();
+    }
+
+    @Override
+    public void teleopInit() {
+        chassisSubsystem.disableSpeedPids();
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        oi.updatePeriodic();
+        Scheduler.getInstance().run();
+        updatePeriodic();
+    }
+
+    @Override
     public void testPeriodic() {
+    }
+
+    private void updatePeriodic() {
+        chassisSubsystem.updatePeriodic();
+        armSubsystem.updatePeriodic();
     }
 
 }
