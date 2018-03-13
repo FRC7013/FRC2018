@@ -2,12 +2,15 @@ package frc.team7013.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.LiftConst;
 import frc.team7013.robot.RobotMap;
 import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedControllerType;
 import frc.team7013.robot.LiftConst.LIFT_POSITION;
+import frc.team7013.robot.commands.arm.DefaultArmCommand;
+import frc.team7013.robot.subsystems.ArmSubsystem;
 
 public class ArmSubsystem extends Subsystem{
 
@@ -69,41 +72,15 @@ public class ArmSubsystem extends Subsystem{
         switch(liftPosition) {
             case INTAKE:
                 return LiftConst.ARM_INTAKE_SETPOINT;
-                break;
             case SWITCH:
                 return LiftConst.ARM_SWITCH_SETPOINT;
-                break;
             case SCALE:
                 return LiftConst.ARM_SCALE_SETPOINT;
-                break;
             case STOW:
                 return LiftConst.ARM_STOW_SETPOINT;
-                break;
                 default:
                     System.out.println("ERROR: INVALID LIFTPOSITION");
                     return 0.2;
-                    break;
-        }
-    }
-
-    private double returnElevatorSetpoint() {
-        switch(liftPosition) {
-            case INTAKE:
-                return LiftConst.ELEVATOR_INTAKE_SETPOINT;
-            break;
-            case SWITCH:
-                return LiftConst.ELEVATOR_SWITCH_SETPOINT;
-            break;
-            case SCALE:
-                return LiftConst.ELEVATOR_SCALE_SETPOINT;
-            break;
-            case STOW:
-                return LiftConst.ELEVATOR_STOW_SETPOINT;
-            break;
-            default:
-                System.out.println("ERROR: INVALID LIFTPOSITION");
-                return 0.2;
-            break;
         }
     }
 
@@ -119,10 +96,45 @@ public class ArmSubsystem extends Subsystem{
 
     //ELEVATOR
     private void moveElevator() {
-        calculateElevatorSetpoint();
-        double elevatorSetpoint = calculatePIDElevator(elevatorPosition);
-        elevatorSetpoint = boundMotorOutput();
-        setElevatorMotor(elevatorSetpoint);
+        double wantedPosition = returnElevatorSetpoint();
+        double motorOutput = calculatePIDElevator(wantedPosition);
+        setElevatorMotor(motorOutput);
+    }
+
+    private double calculatePIDElevator(double setpoint) {
+        double position = getElevatorPosition();
+        double error = setpoint - position;
+        double motorOutput = LiftConst.ELEVATOR_PID_KP * error;
+
+        if(motorOutput > LiftConst.ELEVATOR_MAX_SPEED) {
+            motorOutput = LiftConst.ELEVATOR_MAX_SPEED;
+        }
+        if(motorOutput < -LiftConst.ELEVATOR_MAX_SPEED) {
+            motorOutput = -LiftConst.ELEVATOR_MAX_SPEED;
+        }
+
+        return motorOutput;
+    }
+
+    private double getElevatorPosition() {
+        return elevatorEncoder.get() / LiftConst.ELEVATOR_ENCODER_MAX;
+    }
+
+    private double returnElevatorSetpoint() {
+
+        switch(liftPosition) {
+            case INTAKE:
+                return LiftConst.ELEVATOR_INTAKE_SETPOINT;
+            case SWITCH:
+                return LiftConst.ELEVATOR_SWITCH_SETPOINT;
+            case SCALE:
+                return LiftConst.ELEVATOR_SCALE_SETPOINT;
+            case STOW:
+                return LiftConst.ELEVATOR_STOW_SETPOINT;
+            default:
+                System.out.println("ERROR: INVALID LIFTPOSITION");
+                return 0.2;
+        }
     }
 
     private void setElevatorMotor(double value) {
@@ -135,9 +147,14 @@ public class ArmSubsystem extends Subsystem{
     }
 
     public void updatePeriodic() {
+        updateSmartDashboard();
         moveArm();
+        moveElevator();
+    }
 
-        moveElevator(elevatorPosition);
+    public void updateSmartDashboard() {
+        SmartDashboard.putNumber("Arm Potentiometer Value",armPotentiometer.get());
+        SmartDashboard.putNumber("Elevator Encoder Value",elevatorEncoder.get());
     }
 
 }

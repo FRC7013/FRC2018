@@ -24,6 +24,22 @@ public class OI {
         return gameController.getAxis(TStick.RIGHT, TAxis.Y);
     }
 
+    public boolean getIntakeButton() {
+        return gameController.getButton(TButton.A);
+    }
+
+    public boolean getSwitchButton() {
+        return gameController.getButton(TButton.X);
+    }
+
+    public boolean getScaleButton() {
+        return gameController.getButton(TButton.Y);
+    }
+
+    public boolean getStowButton() {
+        return gameController.getButton(TButton.B);
+    }
+
     public void updatePeriodic() {
     }
 

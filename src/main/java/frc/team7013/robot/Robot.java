@@ -23,6 +23,8 @@ public class Robot extends IterativeRobot {
 
         armSubsystem.init();
         chassisSubsystem.init();
+
+        armSubsystem.setArmPosition(LiftConst.LIFT_POSITION.STOW);
     }
 
     /**
