@@ -1,7 +1,9 @@
 package frc.team7013.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.team7013.robot.commands.AutonomousCommand;
 import frc.team7013.robot.oi.GameData;
 import frc.team7013.robot.oi.OI;
 import frc.team7013.robot.subsystems.ArmSubsystem;
@@ -12,6 +14,8 @@ public class Robot extends IterativeRobot {
     public static final ChassisSubsystem chassisSubsystem = new ChassisSubsystem();
     public static final ArmSubsystem armSubsystem = new ArmSubsystem();
     public static OI oi;
+
+    private Command autoCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -24,7 +28,7 @@ public class Robot extends IterativeRobot {
         armSubsystem.init();
         chassisSubsystem.init();
 
-        armSubsystem.setArmPosition(LiftConst.LIFT_POSITION.STOW);
+        armSubsystem.setArmPosition(LiftConst.LIFT_POSITION.SWITCH);
     }
 
     /**
@@ -53,6 +57,8 @@ public class Robot extends IterativeRobot {
         Robot.chassisSubsystem.resetEncoders();
 
         Robot.armSubsystem.resetElevatorEncoder();
+        autoCommand = new AutonomousCommand();
+        autoCommand.start();
 
     }
 
@@ -65,6 +71,10 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+        if(autoCommand != null) {
+            autoCommand.cancel();
+        }
+
         chassisSubsystem.disableSpeedPids();
     }
 

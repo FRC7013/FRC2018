@@ -48,6 +48,10 @@ public class OI {
         return gameController.getButton(TButton.RIGHT_BUMPER);
     }
 
+    public boolean getHomeArmButton() {
+        return gameController.getButton(TStick.LEFT);
+    }
+
     public void updatePeriodic() {
     }
 

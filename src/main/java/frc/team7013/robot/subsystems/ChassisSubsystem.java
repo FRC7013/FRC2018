@@ -62,6 +62,14 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
         rightIntake.set(value);
     }
 
+    private boolean autoIntake = false;
+    public void setIntakeOnAuto() {
+        autoIntake = true;
+    }
+    public void setIntakeOffAuto() {
+        autoIntake = false;
+    }
+
     @Override
     public void updatePeriodic() {
         super.updatePeriodic();
@@ -69,6 +77,9 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
             setIntake(-1.0);
         }
         else if(Robot.oi.getExtakeCubeButton()) {
+            setIntake(1.0);
+        }
+        else if(autoIntake) {
             setIntake(1.0);
         }
         else {

@@ -58,6 +58,12 @@ public class ArmSubsystem extends Subsystem{
             motorOutput = -LiftConst.ARM_MAX_SPEED;
         }
 
+        if(liftPosition == LIFT_POSITION.SCALE) {
+            if(Math.abs(getArmPosition() - LiftConst.ARM_SCALE_SETPOINT)<0.1) {
+                motorOutput = motorOutput * 0.7;
+            }
+        }
+
         return motorOutput;
 
     }

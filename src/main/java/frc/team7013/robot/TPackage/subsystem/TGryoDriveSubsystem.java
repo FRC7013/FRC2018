@@ -153,7 +153,7 @@ public abstract class TGryoDriveSubsystem extends TDriveSubsystem {
     public double getGryoAngle() {
 
         // Normalize the angle
-        double angle = gyro.getAngle() % 360;
+        double angle = (-gyro.getAngle()) % 360;
 
         if (angle < 0) {
             angle = angle + 360;

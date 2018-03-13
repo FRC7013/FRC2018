@@ -2,7 +2,9 @@ package frc.team7013.robot;
 
 public class DriveConst {
 
-    public static final double TELEOP_MAX_DRIVE_SPEED = 0.60;
+    public static final double TELEOP_MAX_DRIVE_SPEED = 0.80;
+
+    public static final double ENCODER_COUNTS_PER_INCH = 5.09375;
 
     //Drive squared?
     public static final boolean DRIVE_SQUARED = true;

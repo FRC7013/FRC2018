@@ -15,17 +15,17 @@ public class LiftConst {
 
     //Arm PID Values
     public static final double ARM_PID_KP = 25;
-    public static final double ARM_MAX_SPEED = 0.6;
+    public static final double ARM_MAX_SPEED = 0.7;
 
     //Elevator Max Value
     public static final double ELEVATOR_ENCODER_MAX = 394;
 
     //Elevator PID Values
     public static final double ELEVATOR_PID_KP = 6;
-    public static final double ELEVATOR_MAX_SPEED = 0.8;
+    public static final double ELEVATOR_MAX_SPEED = 0.5;
 
     //Arm setpoints
-    public static final double ARM_INTAKE_SETPOINT = 0.00;
+    public static final double ARM_INTAKE_SETPOINT = -0.015;
     public static final double ARM_SWITCH_SETPOINT = 0.15;
     public static final double ARM_SCALE_SETPOINT = 0.50;
     public static final double ARM_STOW_SETPOINT = 0.10;
