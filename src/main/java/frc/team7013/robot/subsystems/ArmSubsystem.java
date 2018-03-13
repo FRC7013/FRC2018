@@ -46,8 +46,10 @@ public class ArmSubsystem extends Subsystem{
 
     private double calculatePIDArm(double setpoint) {
         double position = getArmPosition();
+        SmartDashboard.putNumber("PID Arm Setpoint",setpoint);
         double error = position - setpoint;
-        double motorOutput = LiftConst.ARM_PID_KP;
+        SmartDashboard.putNumber("Arm PID error",error);
+        double motorOutput = LiftConst.ARM_PID_KP*error;
 
         if(motorOutput > LiftConst.ARM_MAX_SPEED) {
             motorOutput = LiftConst.ARM_MAX_SPEED;
@@ -61,7 +63,8 @@ public class ArmSubsystem extends Subsystem{
     }
 
     private double getArmPosition() {
-        return (armPotentiometer.get() - LiftConst.ARM_POT_MIN) / (LiftConst.ARM_POT_MAX - LiftConst.ARM_POT_MIN);
+        double position = (armPotentiometer.get() - LiftConst.ARM_POT_MIN) / (LiftConst.ARM_POT_MAX - LiftConst.ARM_POT_MIN);
+        return position;
     }
 
     public void setArmPosition(LIFT_POSITION position) {
@@ -71,12 +74,21 @@ public class ArmSubsystem extends Subsystem{
     private double returnArmSetpoint() {
         switch(liftPosition) {
             case INTAKE:
+                if(getElevatorPosition() > 0.5) {
+                    return LiftConst.ARM_SCALE_SETPOINT;
+                }
                 return LiftConst.ARM_INTAKE_SETPOINT;
             case SWITCH:
+                if(getElevatorPosition() > 0.5) {
+                    return LiftConst.ARM_SCALE_SETPOINT;
+                }
                 return LiftConst.ARM_SWITCH_SETPOINT;
             case SCALE:
                 return LiftConst.ARM_SCALE_SETPOINT;
             case STOW:
+                if(getElevatorPosition() > 0.5) {
+                    return LiftConst.ARM_SCALE_SETPOINT;
+                }
                 return LiftConst.ARM_STOW_SETPOINT;
                 default:
                     System.out.println("ERROR: INVALID LIFTPOSITION");
@@ -128,6 +140,9 @@ public class ArmSubsystem extends Subsystem{
             case SWITCH:
                 return LiftConst.ELEVATOR_SWITCH_SETPOINT;
             case SCALE:
+                if(getArmPosition() < 0.3) {
+                    return LiftConst.ELEVATOR_STOW_SETPOINT;
+                }
                 return LiftConst.ELEVATOR_SCALE_SETPOINT;
             case STOW:
                 return LiftConst.ELEVATOR_STOW_SETPOINT;
@@ -155,6 +170,8 @@ public class ArmSubsystem extends Subsystem{
     public void updateSmartDashboard() {
         SmartDashboard.putNumber("Arm Potentiometer Value",armPotentiometer.get());
         SmartDashboard.putNumber("Elevator Encoder Value",elevatorEncoder.get());
+        SmartDashboard.putNumber("Arm Position",getArmPosition());
+        SmartDashboard.putNumber("Elevator Position",getElevatorPosition());
     }
 
 }

@@ -1,6 +1,7 @@
 package frc.team7013.robot.subsystems;
 
 import frc.team7013.robot.DriveConst;
+import frc.team7013.robot.Robot;
 import frc.team7013.robot.RobotMap;
 import frc.team7013.robot.TPackage.sensors.encoder.TEncoder;
 import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
@@ -11,6 +12,8 @@ import frc.team7013.robot.TPackage.subsystem.TGryoDriveSubsystem;
 import frc.team7013.robot.commands.drive.DefaultChassisCommand;
 
 public class ChassisSubsystem extends TGryoDriveSubsystem {
+
+    TPwmSpeedController leftIntake, rightIntake;
 
     public ChassisSubsystem() {
         super(
@@ -38,6 +41,9 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
                 DriveConst.DRIVE_SPEED_PID_KP,
                 DriveConst.MAX_DRIVE_ENCODER_SPEED
         );
+
+        leftIntake = new TPwmSpeedController(TPwmSpeedControllerType.SPARK,5,false);
+        rightIntake = new TPwmSpeedController(TPwmSpeedControllerType.SPARK,4,false);
     }
 
     @Override
@@ -51,9 +57,23 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
         setDefaultCommand(new DefaultChassisCommand());
     }
 
+    private void setIntake(double value) {
+        leftIntake.set(value);
+        rightIntake.set(value);
+    }
+
     @Override
     public void updatePeriodic() {
         super.updatePeriodic();
+        if(Robot.oi.getIntakeCubeButton()) {
+            setIntake(-1.0);
+        }
+        else if(Robot.oi.getExtakeCubeButton()) {
+            setIntake(1.0);
+        }
+        else {
+            setIntake(-0.3);
+        }
     }
 
 }

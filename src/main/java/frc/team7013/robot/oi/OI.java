@@ -40,6 +40,14 @@ public class OI {
         return gameController.getButton(TButton.B);
     }
 
+    public boolean getIntakeCubeButton() {
+        return gameController.getButton(TButton.LEFT_BUMPER);
+    }
+
+    public boolean getExtakeCubeButton() {
+        return gameController.getButton(TButton.RIGHT_BUMPER);
+    }
+
     public void updatePeriodic() {
     }
 
