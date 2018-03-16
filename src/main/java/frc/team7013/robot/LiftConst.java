@@ -26,7 +26,7 @@ public class LiftConst {
     public static final double ELEVATOR_MAX_SPEED = 0.5;
 
     //Arm setpoints
-    public static final double ARM_INTAKE_SETPOINT = -0.015;
+    public static final double ARM_INTAKE_SETPOINT = 0.00;
     public static final double ARM_SWITCH_SETPOINT = 0.15;
     public static final double ARM_SCALE_SETPOINT = 0.45;
     public static final double ARM_STOW_SETPOINT = 0.05;

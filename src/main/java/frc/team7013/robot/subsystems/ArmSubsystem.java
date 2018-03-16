@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.LiftConst;
+import frc.team7013.robot.Robot;
 import frc.team7013.robot.RobotMap;
 import frc.team7013.robot.TPackage.sensors.encoder.TPwmEncoder;
 import frc.team7013.robot.TPackage.speedcontroller.TPwmSpeedController;
@@ -159,7 +160,12 @@ public class ArmSubsystem extends Subsystem{
     }
 
     private void setElevatorMotor(double value) {
-        elevatorMotor.set(value);
+        if(Robot.oi.getHomeArmButton()) {
+            elevatorMotor.set(-0.4);
+            resetElevatorEncoder();
+        }else {
+            elevatorMotor.set(value);
+        }
     }
 
 

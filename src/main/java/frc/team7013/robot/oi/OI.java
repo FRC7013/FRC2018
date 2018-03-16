@@ -25,19 +25,19 @@ public class OI {
     }
 
     public boolean getIntakeButton() {
-        return gameController.getButton(TButton.A);
+        return operatorController.getButton(TButton.A);
     }
 
     public boolean getSwitchButton() {
-        return gameController.getButton(TButton.X);
+        return operatorController.getButton(TButton.X);
     }
 
     public boolean getScaleButton() {
-        return gameController.getButton(TButton.Y);
+        return operatorController.getButton(TButton.Y);
     }
 
     public boolean getStowButton() {
-        return gameController.getButton(TButton.B);
+        return operatorController.getButton(TButton.B);
     }
 
     public boolean getIntakeCubeButton() {
@@ -49,7 +49,7 @@ public class OI {
     }
 
     public boolean getHomeArmButton() {
-        return gameController.getButton(TStick.LEFT);
+        return operatorController.getButton(TButton.RIGHT_BUMPER);
     }
 
     public void updatePeriodic() {
