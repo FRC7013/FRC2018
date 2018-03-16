@@ -15,6 +15,7 @@ public class OI {
     private TGameController gameController = new TGameController_Logitech(0);
     private TGameController operatorController = new TGameController_Logitech(1);
 
+
     //Driver Controller
     public double getLeftSpeed() {
         return gameController.getAxis(TStick.LEFT, TAxis.Y);
@@ -62,6 +63,14 @@ public class OI {
 
     public boolean getElevatorDown() {
         return operatorController.getButton(TButton.RIGHT_BUMPER);
+    }
+
+    public boolean getEnablePid() {
+        return gameController.getButton(TButton.A);
+    }
+
+    public boolean getDisablePid() {
+        return gameController.getButton(TButton.B);
     }
 
     public void updatePeriodic() {

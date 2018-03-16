@@ -136,7 +136,7 @@ public class ArmSubsystem extends Subsystem{
     }
 
     private double getElevatorPosition() {
-        return elevatorEncoder.get() / LiftConst.ELEVATOR_ENCODER_MAX;
+        return -elevatorEncoder.get() / LiftConst.ELEVATOR_ENCODER_MAX;
     }
 
 
@@ -160,25 +160,39 @@ public class ArmSubsystem extends Subsystem{
         }
     }
 
+    boolean pidState = true;
+
     private void setElevatorMotor(double value) {
-        /*if(Robot.oi.getHomeArmButton()) {
-            elevatorMotor.set(-0.4);
-            resetElevatorEncoder();
-        }else {
-            elevatorMotor.set(value);
-        }*/
-        if(Robot.oi.getElevatorUp()) {
-            elevatorMotor.set(-0.4);
+
+        if(Robot.oi.getEnablePid()) {
+            pidState = true;
         }
-        else if(Robot.oi.getElevatorDown()) {
-            elevatorMotor.set(0.4);
+        if(Robot.oi.getDisablePid()) {
+            pidState = false;
         }
-        else {
-            if(getArmPosition() < (LiftConst.ARM_SWITCH_SETPOINT - 0.03)) {
-                elevatorMotor.set(-0.2);
+
+        if(pidState) {
+            if(Robot.oi.getHomeArmButton()) {
+                elevatorMotor.set(-0.4);
+                resetElevatorEncoder();
+            } else {
+                elevatorMotor.set(value);
+            }
+
+        } else {
+            if(Robot.oi.getElevatorUp()) {
+                elevatorMotor.set(-0.4);
+            }
+            else if(Robot.oi.getElevatorDown()) {
+                elevatorMotor.set(0.4);
             }
             else {
-                elevatorMotor.set(0.0);
+                if(getArmPosition() < (LiftConst.ARM_SWITCH_SETPOINT - 0.03)) {
+                    elevatorMotor.set(-0.2);
+                }
+                else {
+                    elevatorMotor.set(0.0);
+                }
             }
         }
     }

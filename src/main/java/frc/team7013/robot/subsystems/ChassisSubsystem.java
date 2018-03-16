@@ -80,7 +80,7 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
             setIntake(1.0);
         }
         else if(autoIntake) {
-            setIntake(0.7);
+            setIntake(0.6);
         }
         else {
             setIntake(-0.3);
