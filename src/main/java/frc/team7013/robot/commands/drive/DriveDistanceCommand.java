@@ -1,5 +1,6 @@
 package frc.team7013.robot.commands.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.DriveConst;
 import frc.team7013.robot.Robot;
 
@@ -18,6 +19,7 @@ public class DriveDistanceCommand extends DriveDirectionCommand {
         this.distance = distance;
         this.stopDistanceEncoderCounts =
                 distance * DriveConst.ENCODER_COUNTS_PER_INCH - STOPPING_ENCODER_COUNTS;
+        SmartDashboard.putNumber("stopDistanceEncoderCounts",stopDistanceEncoderCounts);
         //System.out.println(stopDistanceEncoderCounts);
     }
 
@@ -32,7 +34,8 @@ public class DriveDistanceCommand extends DriveDirectionCommand {
             return true;
         }
 
-        if (Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
+        SmartDashboard.putNumber("getEncoderDistance",-Robot.chassisSubsystem.getEncoderDistance());
+        if (-Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
             //System.out.println("ending drive");
             return true;
         }

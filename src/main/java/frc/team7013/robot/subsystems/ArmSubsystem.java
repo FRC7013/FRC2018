@@ -139,6 +139,7 @@ public class ArmSubsystem extends Subsystem{
         return elevatorEncoder.get() / LiftConst.ELEVATOR_ENCODER_MAX;
     }
 
+
     private double returnElevatorSetpoint() {
 
         switch(liftPosition) {
