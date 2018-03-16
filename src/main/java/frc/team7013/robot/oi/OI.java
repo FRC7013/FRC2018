@@ -56,6 +56,14 @@ public class OI {
         return operatorController.getAxis(TStick.RIGHT,TAxis.Y);
     }
 
+    public boolean getElevatorUp() {
+        return operatorController.getButton(TButton.LEFT_BUMPER);
+    }
+
+    public boolean getElevatorDown() {
+        return operatorController.getButton(TButton.RIGHT_BUMPER);
+    }
+
     public void updatePeriodic() {
     }
 

@@ -11,20 +11,31 @@ public class AutonomousCommand extends CommandGroup {
 
     public AutonomousCommand() {
         char closeSwitch = GameData.getCloseSwitch();
-        /*addSequential(new DriveDistanceCommand(320,0,0.5,15,false));
-        addSequential(new TSafeCommand(3));
-        addSequential(new RotateToAngleCommand(90,0.5));
-        addSequential(new DriveTimeCommand(0.5,4);
-        addSequential(new ShootCubeCommand());*/
+        //addSequential(new DriveDistanceCommand(320,0,0.5,15,false));
+
         if(closeSwitch == LEFT) {
             addSequential(new ArcCommand(60, 0, 310, 0.7));
-            addSequential(new ArcCommand(60, 310, 350, 0.7));
+            addSequential(new ArcCommand(60, 310, 0, 0.7));
             addSequential(new ShootCubeCommand());
         }
         if(closeSwitch == RIGHT) {
-            addSequential(new ArcCommand(60, 0, 50, 0.7));
-            addSequential(new ArcCommand(60, 50, 10, 0.7));
+            addSequential(new ArcCommand(40, 0, 50, 0.7));
+            addSequential(new ArcCommand(60, 50, 350, 0.7));
             addSequential(new ShootCubeCommand());
         }
     }
+
+    /*
+    FOR MATCH 41:
+    if(closeSwitch == LEFT) {
+            addSequential(new ArcCommand(60, 0, 310, 0.7));
+            addSequential(new ArcCommand(60, 310, 0, 0.7));
+            addSequential(new ShootCubeCommand());
+        }
+        if(closeSwitch == RIGHT) {
+            addSequential(new ArcCommand(40, 0, 50, 0.7));
+            addSequential(new ArcCommand(60, 50, 350, 0.7));
+            addSequential(new ShootCubeCommand());
+        }
+     */
 }

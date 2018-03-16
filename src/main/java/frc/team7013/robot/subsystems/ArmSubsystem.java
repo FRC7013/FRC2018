@@ -161,11 +161,25 @@ public class ArmSubsystem extends Subsystem{
     }
 
     private void setElevatorMotor(double value) {
-        if(Robot.oi.getHomeArmButton()) {
+        /*if(Robot.oi.getHomeArmButton()) {
             elevatorMotor.set(-0.4);
             resetElevatorEncoder();
         }else {
             elevatorMotor.set(value);
+        }*/
+        if(Robot.oi.getElevatorUp()) {
+            elevatorMotor.set(-0.4);
+        }
+        else if(Robot.oi.getElevatorDown()) {
+            elevatorMotor.set(0.4);
+        }
+        else {
+            if(getArmPosition() < (LiftConst.ARM_SWITCH_SETPOINT - 0.03)) {
+                elevatorMotor.set(-0.2);
+            }
+            else {
+                elevatorMotor.set(0.0);
+            }
         }
     }
 
