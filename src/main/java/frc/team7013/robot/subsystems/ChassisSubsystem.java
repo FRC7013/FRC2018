@@ -63,12 +63,15 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
     }
 
     private boolean autoIntake = false;
+    private boolean autoExtake = false;
     public void setIntakeOnAuto() {
         autoIntake = true;
     }
     public void setIntakeOffAuto() {
         autoIntake = false;
+        autoExtake = false;
     }
+    public void setIntakeReverseAuto() { autoExtake = true;}
 
     @Override
     public void updatePeriodic() {
@@ -84,6 +87,9 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
         }
         else {
             setIntake(-0.3);
+        }
+        if(autoExtake) {
+            setIntake(-1.0);
         }
     }
 

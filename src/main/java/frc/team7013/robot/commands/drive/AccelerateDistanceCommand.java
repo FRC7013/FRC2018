@@ -1,6 +1,5 @@
 package frc.team7013.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team7013.robot.DriveConst;
 import frc.team7013.robot.Robot;
 
@@ -8,59 +7,54 @@ public class AccelerateDistanceCommand extends DriveDirectionCommand {
 
     double distance = 0; // in inches
     double stopDistanceEncoderCounts = 0; // encoder counts to stop at
-    double accelerateDistance = 64; //Inches to ramp up over
-    double speedSetpoint = 0;
+    double slowDistanceEncoderCounts = 0;
 
-    double inputSpeed;
+    double speed;
+    double curSpeed = 0;
 
     private final double STOPPING_ENCODER_COUNTS = 20; // to reduce stopping overshoot
 
     public AccelerateDistanceCommand(double distance, double direction, double speed,
-                                double timeout, boolean brakeWhenFinished) {
+                                     double timeout, boolean brakeWhenFinished) {
 
         super(direction, speed, timeout, brakeWhenFinished);
-
-        this.inputSpeed = speed;
+        this.speed = speed;
         this.distance = distance;
         this.stopDistanceEncoderCounts =
                 distance * DriveConst.ENCODER_COUNTS_PER_INCH - STOPPING_ENCODER_COUNTS;
-        SmartDashboard.putNumber("stopDistanceEncoderCounts",stopDistanceEncoderCounts);
-        //System.out.println(stopDistanceEncoderCounts);
+        this.slowDistanceEncoderCounts =
+                (distance-35) * DriveConst.ENCODER_COUNTS_PER_INCH - STOPPING_ENCODER_COUNTS;
     }
 
     protected void initialize() {
+        super.initialize();
         //System.out.println("starting drive");
         Robot.chassisSubsystem.resetEncoders();
+        curSpeed = 0;
+    }
+
+    protected void execute() {
+        if (Robot.chassisSubsystem.getEncoderDistance() > slowDistanceEncoderCounts) {
+            if (curSpeed > speed*.4) {
+                curSpeed = Math.max(curSpeed-.02, speed*.4);
+            }
+        }
+        else {
+            if (curSpeed < speed) {
+                curSpeed = Math.min(curSpeed + .02, speed);
+            }
+        }
+        super.setSpeed(curSpeed);
+        super.execute();
     }
 
     protected boolean isFinished() {
-
-        if(-Robot.chassisSubsystem.getEncoderDistance()* DriveConst.ENCODER_COUNTS_PER_INCH < accelerateDistance) {
-            if(speedSetpoint < inputSpeed) {
-                speedSetpoint = speedSetpoint + 0.02;
-            }
-            else {
-                speedSetpoint = inputSpeed;
-            }
-        }
-        if(-Robot.chassisSubsystem.getEncoderDistance()* DriveConst.ENCODER_COUNTS_PER_INCH > (distance - accelerateDistance)) {
-            if ((-Robot.chassisSubsystem.getEncoderDistance() * DriveConst.ENCODER_COUNTS_PER_INCH - distance) > 0) {
-                speedSetpoint = 0;
-            }
-            else {
-                speedSetpoint = inputSpeed*((distance - (-Robot.chassisSubsystem.getEncoderDistance()* DriveConst.ENCODER_COUNTS_PER_INCH))/accelerateDistance);
-            }
-        }
-
-        super.setSpeedSetpoint(speedSetpoint);
-
 
         if (super.isFinished()) {
             return true;
         }
 
-        SmartDashboard.putNumber("getEncoderDistance",-Robot.chassisSubsystem.getEncoderDistance());
-        if (-Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
+        if (Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
             //System.out.println("ending drive");
             return true;
         }

@@ -32,6 +32,10 @@ public class DriveDirectionCommand extends TSafeCommand {
 
     }
 
+    protected void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
@@ -72,10 +76,6 @@ public class DriveDirectionCommand extends TSafeCommand {
             Robot.chassisSubsystem.setSpeed(0, 0);
         }
 
-    }
-
-    protected void setSpeedSetpoint(double newSpeed) {
-        speed = newSpeed;
     }
 
     // Called when another command which requires one or more of the same
