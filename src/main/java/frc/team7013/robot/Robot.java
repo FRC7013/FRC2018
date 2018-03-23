@@ -1,6 +1,7 @@
 package frc.team7013.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.team7013.robot.commands.AutonomousCommand;
@@ -9,7 +10,7 @@ import frc.team7013.robot.oi.OI;
 import frc.team7013.robot.subsystems.ArmSubsystem;
 import frc.team7013.robot.subsystems.ChassisSubsystem;
 
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 
     public static final ChassisSubsystem chassisSubsystem = new ChassisSubsystem();
     public static final ArmSubsystem armSubsystem = new ArmSubsystem();
@@ -23,6 +24,8 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void robotInit() {
+        setPeriod(0.01); //Hopefully this should be set here
+
         oi = new OI();
 
         armSubsystem.init();
@@ -57,6 +60,8 @@ public class Robot extends IterativeRobot {
         Robot.chassisSubsystem.resetEncoders();
 
         Robot.armSubsystem.resetElevatorEncoder();
+        Robot.armSubsystem.setPidState(true);
+
         autoCommand = new AutonomousCommand();
         autoCommand.start();
 
@@ -75,6 +80,7 @@ public class Robot extends IterativeRobot {
             autoCommand.cancel();
         }
 
+        Robot.armSubsystem.setPidState(true);
         chassisSubsystem.disableSpeedPids();
     }
 
@@ -88,6 +94,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void testPeriodic() {
     }
+
 
     private void updatePeriodic() {
         chassisSubsystem.updatePeriodic();

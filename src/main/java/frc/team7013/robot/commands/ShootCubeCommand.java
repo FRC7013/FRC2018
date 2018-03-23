@@ -7,7 +7,7 @@ import frc.team7013.robot.subsystems.ChassisSubsystem;
 public class ShootCubeCommand extends TSafeCommand {
 
     public ShootCubeCommand() {
-        super(2);
+        super(0.5);
         requires(Robot.chassisSubsystem);
     }
 

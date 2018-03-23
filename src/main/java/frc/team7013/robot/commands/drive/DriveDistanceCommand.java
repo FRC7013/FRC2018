@@ -17,8 +17,15 @@ public class DriveDistanceCommand extends DriveDirectionCommand {
         super(direction, speed, timeout, brakeWhenFinished);
 
         this.distance = distance;
-        this.stopDistanceEncoderCounts =
-                distance * DriveConst.ENCODER_COUNTS_PER_INCH - STOPPING_ENCODER_COUNTS;
+        if(distance > 0) {
+            this.stopDistanceEncoderCounts =
+                    distance * DriveConst.ENCODER_COUNTS_PER_INCH - STOPPING_ENCODER_COUNTS;
+        }
+        else {
+            this.stopDistanceEncoderCounts =
+                    -distance * DriveConst.ENCODER_COUNTS_PER_INCH - STOPPING_ENCODER_COUNTS;
+        }
+
         SmartDashboard.putNumber("stopDistanceEncoderCounts",stopDistanceEncoderCounts);
         //System.out.println(stopDistanceEncoderCounts);
     }
@@ -35,9 +42,17 @@ public class DriveDistanceCommand extends DriveDirectionCommand {
         }
 
         SmartDashboard.putNumber("getEncoderDistance",-Robot.chassisSubsystem.getEncoderDistance());
-        if (-Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
-            //System.out.println("ending drive");
-            return true;
+        if(distance > 0) {
+            if (-Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
+                //System.out.println("ending drive");
+                return true;
+            }
+        }
+        else {
+            if (Robot.chassisSubsystem.getEncoderDistance() > stopDistanceEncoderCounts) {
+                //System.out.println("ending drive");
+                return true;
+            }
         }
 
         return false;

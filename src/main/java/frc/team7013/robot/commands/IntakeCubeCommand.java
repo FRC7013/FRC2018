@@ -6,7 +6,7 @@ import frc.team7013.robot.commands.drive.TSafeCommand;
 public class IntakeCubeCommand extends TSafeCommand {
 
     public IntakeCubeCommand() {
-        super(2);
+        super(0.5);
         requires(Robot.chassisSubsystem);
     }
 

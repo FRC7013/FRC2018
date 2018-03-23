@@ -10,6 +10,7 @@ public class SetArmCommand extends TSafeCommand {
 
     public SetArmCommand(LiftConst.LIFT_POSITION position,double time) {
         super(time);
+        Robot.armSubsystem.setPidState(true);
         liftPosition = position;
     }
 

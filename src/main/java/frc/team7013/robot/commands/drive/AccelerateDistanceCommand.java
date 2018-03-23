@@ -44,7 +44,7 @@ public class AccelerateDistanceCommand extends DriveDirectionCommand {
                 curSpeed = Math.min(curSpeed + .02, speed);
             }
         }
-        super.setSpeed(curSpeed);
+        super.setSpeed(-curSpeed);
         super.execute();
     }
 

@@ -137,6 +137,62 @@ public abstract class TDriveSubsystem extends TSubsystem {
         return (leftEncoder.get() + rightEncoder.get()) / 2;
     }
 
+    public double getLeftEncoderFeetDistance() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return (-leftEncoder.get() / 9.6287128712871287128712871287129)/12.0;
+    }
+
+    public double getRightEncoderFeetDistance() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return (-rightEncoder.get() / 9.6287128712871287128712871287129)/12.0;
+    }
+
+    public double getLeftEncoderFeetSpeed() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return (-leftEncoder.getRate() / 9.6287128712871287128712871287129)/12.0;
+    }
+
+    public double getRightEncoderFeetSpeed() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return (-rightEncoder.getRate() / 9.6287128712871287128712871287129)/12.0;
+    }
+
+    public int getLeftEncoderRawDistance() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return leftEncoder.get();
+    }
+
+    public int getRightEncoderRawDistance() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return rightEncoder.get();
+    }
+
+    public double getLeftEncoderRawSpeed() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return leftEncoder.getRate();
+    }
+
+    public double getRightEncoderRawSpeed() {
+        if (leftEncoder == null || rightEncoder == null) {
+            return 0;
+        }
+        return rightEncoder.getRate();
+    }
+
     public double getEncoderSpeed() {
 
         if (leftEncoder == null || rightEncoder == null) {

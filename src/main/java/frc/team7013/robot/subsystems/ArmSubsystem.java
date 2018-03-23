@@ -92,6 +92,8 @@ public class ArmSubsystem extends Subsystem{
                 return LiftConst.ARM_SWITCH_SETPOINT;
             case SCALE:
                 return LiftConst.ARM_SCALE_SETPOINT;
+            case FAR:
+                return LiftConst.ARM_FAR_SETPOINT;
             case STOW:
                 if(getElevatorPosition() > 0.5) {
                     return LiftConst.ARM_SCALE_SETPOINT;
@@ -147,6 +149,8 @@ public class ArmSubsystem extends Subsystem{
                 return LiftConst.ELEVATOR_INTAKE_SETPOINT;
             case SWITCH:
                 return LiftConst.ELEVATOR_SWITCH_SETPOINT;
+            case FAR:
+                return LiftConst.ARM_FAR_SETPOINT;
             case SCALE:
                 if(getArmPosition() < 0.3) {
                     return LiftConst.ELEVATOR_STOW_SETPOINT;
@@ -161,6 +165,10 @@ public class ArmSubsystem extends Subsystem{
     }
 
     boolean pidState = true;
+
+    public void setPidState(boolean state) {
+        pidState = state;
+    }
 
     private void setElevatorMotor(double value) {
 
