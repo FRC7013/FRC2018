@@ -146,18 +146,21 @@ public class ArmSubsystem extends Subsystem{
 
         switch(liftPosition) {
             case INTAKE:
+                if(getArmPosition() > LiftConst.ARM_INTAKE_SETPOINT + 0.2) {
+                    return LiftConst.ELEVATOR_STOW_SETPOINT;
+                }
                 return LiftConst.ELEVATOR_INTAKE_SETPOINT;
             case SWITCH:
                 return LiftConst.ELEVATOR_SWITCH_SETPOINT;
             case FAR:
-                return LiftConst.ARM_FAR_SETPOINT;
+                return LiftConst.ELEVATOR_FAR_SETPOINT;
             case SCALE:
-                if(getArmPosition() < 0.3) {
+                if(getArmPosition() < 0.45) {
                     return LiftConst.ELEVATOR_STOW_SETPOINT;
                 }
                 return LiftConst.ELEVATOR_SCALE_SETPOINT;
             case STOW:
-                return LiftConst.ELEVATOR_STOW_SETPOINT;
+                return LiftConst.ELEVATOR_STOW_SETPOINT_REAL;
             default:
                 System.out.println("ERROR: INVALID LIFTPOSITION");
                 return 0.2;

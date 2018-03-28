@@ -25,6 +25,11 @@ public class DefaultChassisCommand extends Command {
         leftSpeed = scaleValue(leftSpeed);
         rightSpeed = scaleValue(rightSpeed);
 
+        if(Robot.oi.getDriveHalfSpeed()) {
+            leftSpeed = leftSpeed * 0.5;
+            rightSpeed = rightSpeed * 0.5;
+        }
+
         Robot.chassisSubsystem.setSpeed(leftSpeed, rightSpeed);
     }
 

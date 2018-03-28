@@ -17,6 +17,10 @@ public class OI {
 
 
     //Driver Controller
+    public boolean getDriveHalfSpeed() {
+        return gameController.getButton(TTrigger.RIGHT) || gameController.getButton(TTrigger.LEFT);
+    }
+
     public double getLeftSpeed() {
         return gameController.getAxis(TStick.LEFT, TAxis.Y);
     }

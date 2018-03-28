@@ -34,20 +34,17 @@ public class AutonomousCommand extends CommandGroup {
     }
 
     //SET AUTO MODE HERE!!!!!!!
-    AutoSide autoMode = AutoSide.CENTRE;
+    AutoSide autoMode = AutoSide.LEFT;
     AutoType autoType = AutoType.SWITCH;
     PathType pathType = PathType.MOTION_PROFILE;
     SecondAction secondAction = SecondAction.SWITCH;
-
-    private String leftcsvFile = "/home/lvuser/FirstPath_left_detailed.csv";
-    private String rightcsvFile = "/home/lvuser/FirstPath_right_detailed.csv";
 
     public AutonomousCommand() {
         char closeSwitch = GameData.getCloseSwitch();
         char scale = GameData.getScale();
 
         if(pathType == PathType.MOTION_PROFILE) {
-            Robot.chassisSubsystem.disableSpeedPids();
+            Robot.chassisSubsystem.disableSpeedPids(); //MIGHT NEED TO REMOVE THIS!!!
             if(closeSwitch == LEFT) {
                 addSequential(new SetArmCommand(LiftConst.LIFT_POSITION.SWITCH,0.01));
                 addSequential(new PathCommand("/home/lvuser/LeftSwitch1_left_detailed.csv","/home/lvuser/LeftSwitch1_right_detailed.csv", PathCommand.DIRECTION.FORWARDS,false));

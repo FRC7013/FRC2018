@@ -58,8 +58,8 @@ public class ChassisSubsystem extends TGryoDriveSubsystem {
     }
 
     private void setIntake(double value) {
-        leftIntake.set(value);
-        rightIntake.set(value);
+            leftIntake.set(value);
+            rightIntake.set(value);
     }
 
     private boolean autoIntake = false;
